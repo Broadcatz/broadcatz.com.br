@@ -31,7 +31,16 @@
   <meta name="twitter:description"
     content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
   <meta name="twitter:image" content="https://broadcatz.com.br/assets/preview.png">
+  <script>if(location.hash&&location.hash.replace('#','')!=='home')document.documentElement.classList.add('has-hash');</script>
   <style>
+    html.has-hash .center,
+    html.has-hash .ears,
+    html.has-hash .ear-wash {
+      opacity: 0 !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
     @font-face {
       font-family: "Square";
       src: url("./assets/squarefont/Square.ttf") format("truetype");
@@ -450,6 +459,14 @@
     }
 
     @media (max-width: 720px) {
+      .nav-item span {
+        display: none;
+      }
+
+      .nav-item {
+        padding: 0 13px;
+      }
+
       .socials {
         right: 90px;
         gap: 10px;
@@ -614,6 +631,11 @@
       .team-card-photo {
         width: 140px;
       }
+
+      .team-card:first-child .team-card-photo img,
+      .team-card:nth-child(2) .team-card-photo img {
+        object-position: center 15%;
+      }
     }
 
     @media (max-width: 720px) {
@@ -625,12 +647,39 @@
         width: 100%;
         height: 220px;
       }
+
+      .team-card:first-child .team-card-photo img,
+      .team-card:nth-child(2) .team-card-photo img {
+        object-position: center 15%;
+      }
     }
 
     /* ── CONTATO ─────────────────────────────────── */
     .contato-form {
       max-width: 760px;
       margin: 0 auto;
+      position: relative;
+    }
+
+    .form-loading-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(28, 30, 38, 0.88);
+      pointer-events: none;
+      transition: opacity 0.7s ease;
+    }
+
+    .form-loading-overlay:not(.done) {
+      animation: formLoadPulse 2.8s ease-in-out infinite;
+    }
+
+    .form-loading-overlay.done {
+      opacity: 0;
+    }
+
+    @keyframes formLoadPulse {
+      0%, 100% { opacity: 0.45; }
+      50%       { opacity: 0.85; }
     }
   </style>
 </head>
@@ -887,9 +936,7 @@
   <section class="page-section" id="section-contato" aria-labelledby="heading-contato" hidden>
     <div class="section-inner">
       <h2 class="section-heading" id="heading-contato">// CONTATO</h2>
-      <div class="contato-form">
-        <script type="text/javascript" src="https://form.jotform.com/jsform/261262448371659"></script>
-      </div>
+      <div class="contato-form" id="contato-form-container"></div>
     </div>
   </section>
 
