@@ -7,7 +7,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BROADCATZ — Soluções Audiovisuais</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   <link rel="preload" href="./assets/squarefont/Square.ttf" as="font" type="font/ttf" crossorigin>
+  <noscript>
+    <style>
+      /* Without JS, sections are hidden by default — override to show them all in a linear flow */
+      html, body { overflow: auto !important; height: auto !important; }
+      body { position: relative; padding-top: 140px; }
+      .nav-menu, #cursor-glow, .grid, .ears, .ear-wash { display: none !important; }
+      /* Logo: pin to top of page via absolute, DOM order doesn't matter */
+      .center {
+        position: absolute !important;
+        top: 20px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(500px, 75vw) !important;
+        text-align: center;
+      }
+      .page-section[hidden] { display: block !important; }
+      .page-section {
+        position: static !important;
+        overflow: visible !important;
+        background: transparent;
+        animation: none !important;
+      }
+    </style>
+  </noscript>
   <!-- TODO: set long-lived cache headers (Cache-Control: max-age=31536000, immutable) for assets/ and media/ — GitHub Pages doesn't support custom headers; consider a _headers file via Cloudflare Pages or a CDN in front -->
 
   <!-- SEO -->
@@ -690,6 +715,11 @@
 </head>
 
 <body>
+  <noscript>
+    <div style="background:var(--cyan);color:#000;padding:10px 24px;text-align:center;font-family:Arial,sans-serif;font-size:0.9rem">
+      Para a melhor experiência, ative o JavaScript no seu navegador.
+    </div>
+  </noscript>
   <div class="grid" aria-hidden="true"></div>
   <canvas id="cursor-glow" aria-hidden="true" width="1028" height="1084"
     style="width: 1028px; height: 1084px;"></canvas>

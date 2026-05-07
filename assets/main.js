@@ -185,6 +185,7 @@
     item?.setAttribute('aria-current', 'page');
 
     section.hidden = false;
+    section.scrollTop = 0;
     if (name === 'contato') showFormOverlay();
 
     const heading = section.querySelector('h1, h2, h3');
@@ -214,4 +215,96 @@
     casesTabs.forEach(t => t.classList.remove('selected'));
     tab.classList.add('selected');
   }));
+
+  // ── Scroll-to-next-section ────────────────────────────────────────────────
+  const sectionOrder = ['home', 'portfolio', 'sobre', 'contato'];
+  let navCooldown  = false;
+  let lastWheelTime = 0;
+
+  function getActiveSectionName() {
+    for (const s of sections) {
+      if (!s.hidden) return s.id.replace('section-', '');
+    }
+    return 'home';
+  }
+
+  function tryNavigate(direction) {
+    if (navCooldown) return false;
+    const current = getActiveSectionName();
+    const idx = sectionOrder.indexOf(current);
+    const next = idx + direction;
+    if (next < 0 || next >= sectionOrder.length) return false;
+    navCooldown = true;
+    setTimeout(() => { navCooldown = false; }, 900);
+    const target = sectionOrder[next];
+    navigateTo(target);
+    // Backward nav: land at bottom so the user can scroll up naturally
+    if (direction < 0 && target !== 'home') {
+      const el = document.getElementById(`section-${target}`);
+      if (el) el.scrollTop = el.scrollHeight;
+    }
+    return true;
+  }
+
+  sections.forEach(section => {
+    // Desktop wheel
+    section.addEventListener('wheel', e => {
+      const now      = Date.now();
+      const atBottom = section.scrollHeight - section.scrollTop - section.clientHeight <= 4;
+      const atTop    = section.scrollTop <= 0;
+
+      if (e.deltaY > 0 && atBottom) {
+        const idle = now - lastWheelTime > 80;
+        lastWheelTime = now;
+        if (idle && tryNavigate(1)) e.preventDefault();
+      } else if (e.deltaY < 0 && atTop) {
+        const idle = now - lastWheelTime > 80;
+        lastWheelTime = now;
+        if (idle && tryNavigate(-1)) e.preventDefault();
+      } else {
+        lastWheelTime = now;
+      }
+    }, { passive: false });
+
+    // Mobile touch
+    let touchStartY      = 0;
+    let touchStartScroll = 0;
+    section.addEventListener('touchstart', e => {
+      touchStartY      = e.touches[0].clientY;
+      touchStartScroll = section.scrollTop;
+    }, { passive: true });
+    section.addEventListener('touchend', e => {
+      const dy       = touchStartY - e.changedTouches[0].clientY;
+      const atBottom = section.scrollHeight - section.scrollTop - section.clientHeight <= 4;
+      const atTop    = section.scrollTop <= 0;
+      // Only fire when the gesture started at the boundary
+      if (dy > 40 && atBottom && touchStartScroll >= section.scrollHeight - section.clientHeight - 4) {
+        tryNavigate(1);
+      } else if (dy < -40 && atTop && touchStartScroll <= 0) {
+        tryNavigate(-1);
+      }
+    }, { passive: true });
+  });
+
+  // Home screen: wheel down → portfolio
+  window.addEventListener('wheel', e => {
+    if (getActiveSectionName() !== 'home') return;
+    if (e.deltaY > 0) {
+      const now  = Date.now();
+      const idle = now - lastWheelTime > 80;
+      lastWheelTime = now;
+      if (idle) tryNavigate(1);
+    }
+  }, { passive: true });
+
+  // Home screen: swipe up → portfolio
+  let homeTouchY = 0;
+  window.addEventListener('touchstart', e => {
+    if (getActiveSectionName() !== 'home') return;
+    homeTouchY = e.touches[0].clientY;
+  }, { passive: true });
+  window.addEventListener('touchend', e => {
+    if (getActiveSectionName() !== 'home') return;
+    if (homeTouchY - e.changedTouches[0].clientY > 40) tryNavigate(1);
+  }, { passive: true });
 })();

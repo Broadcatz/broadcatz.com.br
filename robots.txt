@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://broadcatz.com.br/sitemap.xml
