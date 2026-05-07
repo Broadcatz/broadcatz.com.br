@@ -1,231 +1,268 @@
 <!DOCTYPE html>
-<!-- saved from url=(0027)http://192.168.15.14:8765/# -->
-<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="pt-BR">
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BROADCATZ — Soluções Audiovisuais</title>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<!-- SEO -->
-<meta name="description" content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BROADCATZ — Soluções Audiovisuais</title>
 
-<!-- Open Graph / Facebook / WhatsApp -->
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://broadcatz.com.br/">
-<meta property="og:title" content="BROADCATZ — Soluções Audiovisuais">
-<meta property="og:description" content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
-<meta property="og:image" content="https://broadcatz.com.br/index_files/preview.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:locale" content="pt_BR">
-<meta property="og:site_name" content="Broadcatz">
+  <!-- SEO -->
+  <meta name="description"
+    content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
 
-<!-- Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://broadcatz.com.br/">
-<meta name="twitter:title" content="BROADCATZ — Soluções Audiovisuais">
-<meta name="twitter:description" content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
-<meta name="twitter:image" content="https://broadcatz.com.br/index_files/preview.png">
-<style>
-  :root {
-    --bg: #050608;
-    --grid-line: rgba(170, 180, 200, 0.035);
-    --pink: #ff5a8a;
-    --pink-deep: #ff2f6e;
-    --cyan: #2dd4ff;
-    --blue: #2cb0e2;
-  }
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://broadcatz.com.br/">
+  <meta property="og:title" content="BROADCATZ — Soluções Audiovisuais">
+  <meta property="og:description"
+    content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
+  <meta property="og:image" content="https://broadcatz.com.br/assets/preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="Broadcatz">
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html, body {
-    width: 100%;
-    height: 100%;
-    background: var(--bg);
-    color: #fff;
-    overflow: hidden;
-    font-family: "Helvetica Neue", Arial, sans-serif;
-  }
-
-  /* static grid (no mouse deformation) */
-  .grid {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(var(--grid-line) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-    background-size: 56px 56px;
-    background-position: -1px -1px;
-  }
-
-  /* large, soft pink wash that simulates the ears illuminating the grid */
-  .ear-wash {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    background:
-      radial-gradient(60vw 70vh at 18vw 95vh,
-        rgba(255, 90, 138, 0.35) 0%,
-        rgba(255, 90, 138, 0.24) 18%,
-        rgba(255, 90, 138, 0.14) 35%,
-        rgba(255, 90, 138, 0.06) 55%,
-        rgba(255, 90, 138, 0.02) 75%,
-        transparent 100%);
-    z-index: 1;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    animation: washPulse 10s ease-in-out infinite;
-  }
-
-  /* canvas overlay that brightens grid lines around the cursor (no deformation) */
-  #cursor-glow {
-    position: fixed;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    mix-blend-mode: screen;
-  }
-
-  @keyframes washPulse {
-    0%, 100% { opacity: 0.70; }
-    50%      { opacity: 1.00; }
-  }
-
-  /* lorem ipsum top-left */
-  .lorem {
-    position: absolute;
-    top: 14px;
-    left: 18px;
-    max-width: 720px;
-    font-family: "Times New Roman", Times, serif;
-    font-size: 11.5px;
-    line-height: 1.35;
-    color: #e7e7ea;
-    z-index: 6;
-    letter-spacing: 0.01em;
-  }
-
-  /* social icons */
-  .socials {
-    position: absolute;
-    top: 28px;
-    right: 120px;
-    display: flex;
-    gap: 14px;
-    z-index: 6;
-  }
-  .socials a {
-    width: 46px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    transition: transform .2s ease;
-  }
-  .socials a:hover { transform: translateY(-2px); }
-
-  /* blue accent box on the right edge */
-  .blue-box {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 70px;
-    height: 270px;
-    background: var(--blue);
-    z-index: 6;
-  }
-
-  /* center logo */
-  .center {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -55%);
-    z-index: 5;
-    text-align: center;
-    pointer-events: none;
-    user-select: none;
-    width: min(1100px, 78vw);
-  }
-
-  .logo-img {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
-
-  /* cat ears — bottom LEFT */
-  .ears {
-    position: fixed;
-    left: -3vw;
-    bottom: -3vh;
-    width: min(720px, 56vw);
-    z-index: 4;
-    pointer-events: none;
-    animation: earsFlicker 60s ease-in-out infinite;
-  }
-
-  .ears svg { width: 100%; height: auto; display: block; overflow: visible; }
-  .ears .ear-stroke {
-    fill: none;
-    stroke: var(--pink);
-    stroke-width: 5;
-    stroke-miterlimit: 10;
-    stroke-linejoin: round;
-  }
-
-  @keyframes earsFlicker {
-    0%, 100% {
-      filter:
-        drop-shadow(0 0 2px rgba(255, 90, 138, 0.40))
-        drop-shadow(0 0 14px rgba(255, 90, 138, 0.28))
-        drop-shadow(0 0 36px rgba(255, 90, 138, 0.18))
-        drop-shadow(0 0 40px rgba(255, 90, 138, 0.10));
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://broadcatz.com.br/">
+  <meta name="twitter:title" content="BROADCATZ — Soluções Audiovisuais">
+  <meta name="twitter:description"
+    content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
+  <meta name="twitter:image" content="https://broadcatz.com.br/assets/preview.png">
+  <style>
+    :root {
+      --bg: #050608;
+      --grid-line: rgba(170, 180, 200, 0.035);
+      --pink: #ff5a8a;
+      --pink-deep: #ff2f6e;
+      --cyan: #2dd4ff;
+      --blue: #2cb0e2;
     }
-    50% {
-      filter:
-        drop-shadow(0 0 3px rgba(255, 90, 138, 0.55))
-        drop-shadow(0 0 20px rgba(255, 90, 138, 0.40))
-        drop-shadow(0 0 25px rgba(255, 90, 138, 0.14))
-    }
-  }
 
-  @media (max-width: 720px) {
-    .socials { right: 90px; gap: 10px; }
-    .socials a { width: 38px; height: 38px; }
-    .blue-box { width: 50px; height: 200px; }
-    .lorem { font-size: 10px; max-width: 60vw; }
-    .center { width: 86vw; }
-    .ears { width: 78vw; }
-  }
-</style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: var(--bg);
+      color: #fff;
+      overflow: hidden;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+    }
+
+    /* static grid (no mouse deformation) */
+    .grid {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 56px 56px;
+      background-position: -1px -1px;
+    }
+
+    /* canvas overlay that brightens grid lines around the cursor */
+    #cursor-glow {
+      position: fixed;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    /* social icons */
+    .socials {
+      position: absolute;
+      top: 28px;
+      right: 120px;
+      display: flex;
+      gap: 14px;
+      z-index: 6;
+    }
+
+    .socials a {
+      width: 46px;
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: transform .2s ease;
+    }
+
+    .socials a:hover {
+      transform: translateY(-2px);
+    }
+
+    /* blue accent box on the right edge */
+    .blue-box {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 3em;
+      height: 10em;
+      background: var(--blue);
+      z-index: 6;
+    }
+
+    /* center logo */
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -55%);
+      z-index: 5;
+      text-align: center;
+      pointer-events: none;
+      user-select: none;
+      width: min(1100px, 78vw);
+    }
+
+    .logo-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* cat ears — bottom LEFT */
+    .ears {
+      position: fixed;
+      left: -3vw;
+      bottom: -4vh;
+      height: 33vh;
+      z-index: 4;
+      pointer-events: none;
+      animation: earsFlicker 60s ease-in-out infinite;
+    }
+
+    .ears svg {
+      width: auto;
+      height: 100%;
+      display: block;
+      overflow: visible;
+    }
+
+    .ears .ear-stroke {
+      fill: none;
+      stroke: var(--pink);
+      stroke-width: 5;
+      stroke-miterlimit: 10;
+      stroke-linejoin: round;
+    }
+
+    @keyframes earsFlicker {
+
+      0%,
+      100% {
+        filter:
+          drop-shadow(0 0 2px rgba(255, 90, 138, 0.40)) drop-shadow(0 0 14px rgba(255, 90, 138, 0.28)) drop-shadow(0 0 36px rgba(255, 90, 138, 0.18)) drop-shadow(0 0 40px rgba(255, 90, 138, 0.10));
+      }
+
+      50% {
+        filter:
+          drop-shadow(0 0 3px rgba(255, 90, 138, 0.55)) drop-shadow(0 0 20px rgba(255, 90, 138, 0.40)) drop-shadow(0 0 25px rgba(255, 90, 138, 0.14))
+      }
+    }
+
+    /* ear glow wash — follows ear position */
+    .ear-wash {
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(60vw 70vh at 18vw 95vh,
+          rgba(255, 90, 138, 0.35) 0%,
+          rgba(255, 90, 138, 0.24) 18%,
+          rgba(255, 90, 138, 0.14) 35%,
+          rgba(255, 90, 138, 0.06) 55%,
+          rgba(255, 90, 138, 0.02) 75%,
+          transparent 100%);
+      z-index: 1;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      animation: washPulse 10s ease-in-out infinite;
+    }
+
+    @keyframes washPulse {
+
+      0%,
+      100% {
+        opacity: 0.70;
+      }
+
+      50% {
+        opacity: 1.00;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .socials {
+        right: 90px;
+        gap: 10px;
+      }
+
+      .socials a {
+        width: 38px;
+        height: 38px;
+      }
+
+      .blue-box {
+        display: none;
+      }
+
+      .center {
+        width: 86vw;
+      }
+
+      .ears {
+        width: 40vh;
+        height: auto;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .ear-wash {
+        background:
+          radial-gradient(60vw 40vh at 50vw 95vh,
+            rgba(255, 90, 138, 0.35) 0%,
+            rgba(255, 90, 138, 0.24) 18%,
+            rgba(255, 90, 138, 0.14) 35%,
+            rgba(255, 90, 138, 0.06) 55%,
+            rgba(255, 90, 138, 0.02) 75%,
+            transparent 100%);
+      }
+    }
+  </style>
 </head>
+
 <body>
   <div class="grid" aria-hidden="true"></div>
-  <canvas id="cursor-glow" aria-hidden="true" width="1028" height="1084" style="width: 1028px; height: 1084px;"></canvas>
+  <canvas id="cursor-glow" aria-hidden="true" width="1028" height="1084"
+    style="width: 1028px; height: 1084px;"></canvas>
   <div class="ear-wash" aria-hidden="true"></div>
 
-<!--  <p class="lorem">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.
-  </p>
+  <!--
 
   <nav class="socials" aria-label="Redes sociais">
     <a href="http://192.168.15.14:8765/#" aria-label="LinkedIn">
       <svg viewBox="0 0 46 46" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="42" height="42" rx="4" stroke="#2dd4ff" stroke-width="2.6"></rect>
-        <rect x="11" y="18" width="5" height="16" fill="#2dd4ff"></rect>
-        <circle cx="13.5" cy="13.5" r="2.6" fill="#2dd4ff"></circle>
-        <path d="M21 18h5v2.3c.9-1.5 2.7-2.7 5.1-2.7 4.1 0 5.9 2.6 5.9 6.6V34h-5v-8.4c0-2-.7-3.4-2.6-3.4-2 0-2.9 1.4-2.9 3.4V34h-5V18z" fill="#2dd4ff"></path>
+        <rect x="2" y="2" width="42" height="42" rx="4" stroke-width="2.6" style="stroke:var(--cyan)"></rect>
+        <rect x="11" y="18" width="5" height="16" style="fill:var(--cyan)"></rect>
+        <circle cx="13.5" cy="13.5" r="2.6" style="fill:var(--cyan)"></circle>
+        <path d="M21 18h5v2.3c.9-1.5 2.7-2.7 5.1-2.7 4.1 0 5.9 2.6 5.9 6.6V34h-5v-8.4c0-2-.7-3.4-2.6-3.4-2 0-2.9 1.4-2.9 3.4V34h-5V18z" style="fill:var(--cyan)"></path>
       </svg>
     </a>
     <a href="http://192.168.15.14:8765/#" aria-label="TikTok">
       <svg viewBox="0 0 46 46" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="42" height="42" rx="4" stroke="#ff2f6e" stroke-width="2.6"></rect>
-        <path d="M28 10v17.2a4.8 4.8 0 11-4.8-4.8c.5 0 1 .07 1.5.2v-4.6a9.5 9.5 0 109.5 9.5V18.7a10.2 10.2 0 005.8 1.8v-4.6a5.7 5.7 0 01-3.6-1.5A5.6 5.6 0 0134.4 10H28z" fill="#ff2f6e"></path>
+        <rect x="2" y="2" width="42" height="42" rx="4" stroke-width="2.6" style="stroke:var(--pink-deep)"></rect>
+        <path d="M28 10v17.2a4.8 4.8 0 11-4.8-4.8c.5 0 1 .07 1.5.2v-4.6a9.5 9.5 0 109.5 9.5V18.7a10.2 10.2 0 005.8 1.8v-4.6a5.7 5.7 0 01-3.6-1.5A5.6 5.6 0 0134.4 10H28z" style="fill:var(--pink-deep)"></path>
       </svg>
     </a>
     <a href="http://192.168.15.14:8765/#" aria-label="Instagram">
@@ -238,122 +275,32 @@
     </a>
   </nav>
 -->
-  <div class="blue-box" aria-hidden="true"></div>
+  <!-- <div class="blue-box" aria-hidden="true"></div> -->
 
   <div class="center">
-    <img class="logo-img" src="./index_files/logo-rosaebranco(discritivo).svg" alt="BROADCATZ — Soluções Audiovisuais">
+    <img class="logo-img" src="./assets/main-logo.svg" alt="BROADCATZ — Soluções Audiovisuais">
   </div>
 
-  <!-- Cat ears (contour version from resources/) — bottom LEFT -->
   <div class="ears" aria-hidden="true">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 966.88 517.94">
       <g>
-        <path class="ear-stroke" d="M3.5,467.44C5.15,456.63,6.9,445.83,8.44,435c6.25-44.16,12.21-88.37,18.73-132.5q9.73-65.94,20.38-131.74C54.12,130.37,60.69,90,71.63,50.43a61.1,61.1,0,0,1,7.2-16.32c13.44-21,36.71-25,55.74-8.79,12.12,10.33,23,22.19,33.86,33.91A1152.22,1152.22,0,0,1,291.37,217.7a897.41,897.41,0,0,1,65.82,120.89c1.27,2.85,2.72,3.93,5.72,4.28,52.59,6.22,104.74,15.2,156.66,25.52,11.62,2.31,14.38,8.95,8,19.08-2.12,3.38-4.34,6.71-6.34,10.16-2.83,4.91-7.23,6.75-12.57,6.43q-81.56-4.81-163.1-9.79c-5.65-.35-11.26-1.21-16.88-1.86-4.36-.5-7.27-2.84-9-6.88-20.5-47.32-46.64-91.57-73.89-135.2-32.55-52.12-67.05-102.92-104-152.06C134.16,88,126,78.08,118,68.1c-2.7-3.35-5.82-6.37-10-10.88-2.48,6.7-5.5,12.19-6.49,18-5.93,35.11-11.82,70.24-16.89,105.49C79.22,218.29,74.16,255.92,70,293.64q-6.32,57.58-10.37,115.42c-2.08,29.89-2.4,59.9-3.52,89.86-.37,9.89-6.3,14.88-14.2,11.77a16,16,0,0,1-4.69-3.49c-9.32-8.77-18.67-17.5-27.79-26.48-2.39-2.35-4-5.5-6-8.28Z"></path>
-        <path class="ear-stroke" d="M963.38,510.44c-9.26-1.08-18.51-2.25-27.79-3.18-3.53-.35-4.94-1.56-5.19-5.45-3.94-61.16-7.59-122.34-12.31-183.44-4.28-55.28-9.75-110.47-18.92-165.19-3.29-19.64-8.2-39-12.79-58.44-3.15-13.28-11.44-24-19.81-34.23-9.72-11.91-21.71-12.61-32.2-1.4-22.06,23.58-44.17,47.21-64.81,72-52.17,62.71-99.29,129-138.59,200.67-20.6,37.56-38.59,76.29-50.77,117.5a20.69,20.69,0,0,1-1.09,2.29c-1-1.46-1.69-2.63-2.49-3.75-4.83-6.77-9.07-14.1-14.73-20.09-4.47-4.74-4.82-8.19-2.26-14.07,43-98.64,93-193.41,154.55-281.88,21.51-30.93,44.47-60.7,70.87-87.74C799,29.79,815.62,19.5,832.67,9.77c5.1-2.91,11.12-4.22,16.72-6.27h11a5.07,5.07,0,0,0,1.19.82c18.32,6,30.55,19.88,38.18,35.93,8.71,18.31,14.21,38.34,19.52,58,18.55,68.86,28.15,139.29,33.85,210.19,4.36,54.26,6.45,108.71,9.58,163.07.09,1.64.44,3.26.67,4.89Z"></path>
-        <path class="ear-stroke" d="M834.4,514.44c-6.73-2.22-13.41-4.64-20.22-6.55-3-.84-3.83-2.17-3.88-5.17q-1.38-94.68-3-189.36a12.94,12.94,0,0,0-1.19-6.27l-94,155.2-1.07-.57L825.49,215l1.24.2q4.83,149.63,9.67,299.26Z"></path>
-        <path class="ear-stroke" d="M138.1,456.81c14.65-2.24,28.15-4,41.51-6.47,10.93-2,21.7-5,32.5-7.66a35.37,35.37,0,0,0,6.95-2.74c7.18-3.5,7.5-5.05,2.84-11.25-41.56-55.27-65.79-117.47-74.18-186a56.06,56.06,0,0,1,0-5.66L287.45,425.61l-71.68,54.06,36.49,32.5-.45.74Z"></path>
+        <path class="ear-stroke"
+          d="M3.5,467.44C5.15,456.63,6.9,445.83,8.44,435c6.25-44.16,12.21-88.37,18.73-132.5q9.73-65.94,20.38-131.74C54.12,130.37,60.69,90,71.63,50.43a61.1,61.1,0,0,1,7.2-16.32c13.44-21,36.71-25,55.74-8.79,12.12,10.33,23,22.19,33.86,33.91A1152.22,1152.22,0,0,1,291.37,217.7a897.41,897.41,0,0,1,65.82,120.89c1.27,2.85,2.72,3.93,5.72,4.28,52.59,6.22,104.74,15.2,156.66,25.52,11.62,2.31,14.38,8.95,8,19.08-2.12,3.38-4.34,6.71-6.34,10.16-2.83,4.91-7.23,6.75-12.57,6.43q-81.56-4.81-163.1-9.79c-5.65-.35-11.26-1.21-16.88-1.86-4.36-.5-7.27-2.84-9-6.88-20.5-47.32-46.64-91.57-73.89-135.2-32.55-52.12-67.05-102.92-104-152.06C134.16,88,126,78.08,118,68.1c-2.7-3.35-5.82-6.37-10-10.88-2.48,6.7-5.5,12.19-6.49,18-5.93,35.11-11.82,70.24-16.89,105.49C79.22,218.29,74.16,255.92,70,293.64q-6.32,57.58-10.37,115.42c-2.08,29.89-2.4,59.9-3.52,89.86-.37,9.89-6.3,14.88-14.2,11.77a16,16,0,0,1-4.69-3.49c-9.32-8.77-18.67-17.5-27.79-26.48-2.39-2.35-4-5.5-6-8.28Z">
+        </path>
+        <path class="ear-stroke"
+          d="M963.38,510.44c-9.26-1.08-18.51-2.25-27.79-3.18-3.53-.35-4.94-1.56-5.19-5.45-3.94-61.16-7.59-122.34-12.31-183.44-4.28-55.28-9.75-110.47-18.92-165.19-3.29-19.64-8.2-39-12.79-58.44-3.15-13.28-11.44-24-19.81-34.23-9.72-11.91-21.71-12.61-32.2-1.4-22.06,23.58-44.17,47.21-64.81,72-52.17,62.71-99.29,129-138.59,200.67-20.6,37.56-38.59,76.29-50.77,117.5a20.69,20.69,0,0,1-1.09,2.29c-1-1.46-1.69-2.63-2.49-3.75-4.83-6.77-9.07-14.1-14.73-20.09-4.47-4.74-4.82-8.19-2.26-14.07,43-98.64,93-193.41,154.55-281.88,21.51-30.93,44.47-60.7,70.87-87.74C799,29.79,815.62,19.5,832.67,9.77c5.1-2.91,11.12-4.22,16.72-6.27h11a5.07,5.07,0,0,0,1.19.82c18.32,6,30.55,19.88,38.18,35.93,8.71,18.31,14.21,38.34,19.52,58,18.55,68.86,28.15,139.29,33.85,210.19,4.36,54.26,6.45,108.71,9.58,163.07.09,1.64.44,3.26.67,4.89Z">
+        </path>
+        <path class="ear-stroke"
+          d="M834.4,514.44c-6.73-2.22-13.41-4.64-20.22-6.55-3-.84-3.83-2.17-3.88-5.17q-1.38-94.68-3-189.36a12.94,12.94,0,0,0-1.19-6.27l-94,155.2-1.07-.57L825.49,215l1.24.2q4.83,149.63,9.67,299.26Z">
+        </path>
+        <path class="ear-stroke"
+          d="M138.1,456.81c14.65-2.24,28.15-4,41.51-6.47,10.93-2,21.7-5,32.5-7.66a35.37,35.37,0,0,0,6.95-2.74c7.18-3.5,7.5-5.05,2.84-11.25-41.56-55.27-65.79-117.47-74.18-186a56.06,56.06,0,0,1,0-5.66L287.45,425.61l-71.68,54.06,36.49,32.5-.45.74Z">
+        </path>
       </g>
     </svg>
   </div>
 
-<script>
-(() => {
-  const canvas = document.getElementById('cursor-glow');
-  const ctx = canvas.getContext('2d');
+  <script src="./assets/main.js" async></script>
+</body>
 
-  const SPACING = 56;        // matches CSS background-size
-  const RADIUS  = 520;       // larger area, very diffuse
-  const LINE_ALPHA = 0.22;   // gentle line tint
-  const HALO_ALPHA = 0.32;   // soft halo at the core
-
-  const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-  let W = 0, H = 0;
-  let mouseX = -99999, mouseY = -99999;
-  let smX = -99999, smY = -99999;
-
-  function resize() {
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width  = Math.floor(W * dpr);
-    canvas.height = Math.floor(H * dpr);
-    canvas.style.width  = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }
-
-  window.addEventListener('resize', resize);
-  window.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    if (smX < -1000) { smX = mouseX; smY = mouseY; }
-  });
-  window.addEventListener('mouseleave', () => {
-    mouseX = -99999;
-    mouseY = -99999;
-  });
-
-  resize();
-
-  function draw() {
-    if (mouseX > -1000) {
-      smX += (mouseX - smX) * 0.14;
-      smY += (mouseY - smY) * 0.14;
-    } else {
-      smX = -99999;
-      smY = -99999;
-    }
-
-    ctx.clearRect(0, 0, W, H);
-
-    if (smX > -1000) {
-      // very soft halo
-      const halo = ctx.createRadialGradient(smX, smY, 0, smX, smY, RADIUS);
-      halo.addColorStop(0,    `rgba(255, 90, 138, ${HALO_ALPHA})`);
-      halo.addColorStop(0.30, `rgba(255, 90, 138, ${HALO_ALPHA * 0.45})`);
-      halo.addColorStop(0.65, `rgba(255, 90, 138, ${HALO_ALPHA * 0.15})`);
-      halo.addColorStop(1,    'rgba(255, 90, 138, 0)');
-      ctx.fillStyle = halo;
-      ctx.fillRect(smX - RADIUS, smY - RADIUS, RADIUS * 2, RADIUS * 2);
-
-      // subtle line tint, masked with a long, gentle radial fade
-      ctx.save();
-      ctx.strokeStyle = `rgba(255, 90, 138, ${LINE_ALPHA})`;
-      ctx.lineWidth = 1;
-
-      const minX = Math.floor((smX - RADIUS) / SPACING) * SPACING;
-      const maxX = Math.ceil((smX + RADIUS) / SPACING) * SPACING;
-      const minY = Math.floor((smY - RADIUS) / SPACING) * SPACING;
-      const maxY = Math.ceil((smY + RADIUS) / SPACING) * SPACING;
-
-      ctx.beginPath();
-      for (let x = minX; x <= maxX; x += SPACING) {
-        ctx.moveTo(x + 0.5, smY - RADIUS);
-        ctx.lineTo(x + 0.5, smY + RADIUS);
-      }
-      for (let y = minY; y <= maxY; y += SPACING) {
-        ctx.moveTo(smX - RADIUS, y + 0.5);
-        ctx.lineTo(smX + RADIUS, y + 0.5);
-      }
-      ctx.stroke();
-
-      ctx.globalCompositeOperation = 'destination-in';
-      const mask = ctx.createRadialGradient(smX, smY, 0, smX, smY, RADIUS);
-      mask.addColorStop(0,    'rgba(0,0,0,1)');
-      mask.addColorStop(0.30, 'rgba(0,0,0,0.55)');
-      mask.addColorStop(0.65, 'rgba(0,0,0,0.20)');
-      mask.addColorStop(1,    'rgba(0,0,0,0)');
-      ctx.fillStyle = mask;
-      ctx.fillRect(smX - RADIUS, smY - RADIUS, RADIUS * 2, RADIUS * 2);
-
-      ctx.restore();
-    }
-
-    requestAnimationFrame(draw);
-  }
-
-  draw();
-})();
-</script>
-
-
-</body></html>
+</html>
