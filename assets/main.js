@@ -94,3 +94,60 @@
 
   draw();
 })();
+
+const navItems = document.querySelectorAll('.nav-item');
+const pageSections = document.querySelectorAll('.page-section');
+const heroEls = document.querySelectorAll('.center, .ears, .ear-wash');
+const casesTabs = document.querySelectorAll('.cases-tab');
+const homeItem = document.querySelector('.nav-item[data-section="home"]');
+
+function goHome() {
+  navItems.forEach(i => { i.classList.remove('selected'); i.removeAttribute('aria-current'); });
+  pageSections.forEach(s => { s.hidden = true; });
+  heroEls.forEach(el => el.classList.remove('small'));
+  homeItem.classList.add('selected');
+  homeItem.setAttribute('aria-current', 'page');
+}
+
+function navigateTo(sectionName, pushState = true) {
+  if (sectionName === 'home' || !sectionName) {
+    if (pushState) history.pushState(null, '', location.pathname);
+    goHome();
+    return;
+  }
+  const section = document.getElementById(`section-${sectionName}`);
+  if (!section) return;
+  navItems.forEach(i => { i.classList.remove('selected'); i.removeAttribute('aria-current'); });
+  pageSections.forEach(s => { s.hidden = true; });
+  const item = document.querySelector(`.nav-item[data-section="${sectionName}"]`);
+  if (item) { item.classList.add('selected'); item.setAttribute('aria-current', 'page'); }
+  section.hidden = false;
+  const heading = section.querySelector('h1, h2, h3');
+  if (heading) { heading.tabIndex = -1; heading.focus(); }
+  heroEls.forEach(el => el.classList.add('small'));
+  if (pushState) history.pushState(null, '', `#${sectionName}`);
+}
+
+navItems.forEach(item => {
+  item.addEventListener('click', e => {
+    e.preventDefault();
+    navigateTo(item.dataset.section);
+  });
+});
+
+window.addEventListener('popstate', () => {
+  const hash = location.hash.replace('#', '');
+  navigateTo(hash || 'home', false);
+});
+
+const initialHash = location.hash.replace('#', '');
+if (initialHash && initialHash !== 'home') {
+  navigateTo(initialHash, false);
+}
+
+casesTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    casesTabs.forEach(t => t.classList.remove('selected'));
+    tab.classList.add('selected');
+  });
+});

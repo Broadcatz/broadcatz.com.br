@@ -32,6 +32,13 @@
     content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
   <meta name="twitter:image" content="https://broadcatz.com.br/assets/preview.png">
   <style>
+    @font-face {
+      font-family: "Square";
+      src: url("./assets/squarefont/Square.ttf") format("truetype");
+      font-weight: normal;
+      font-display: swap;
+    }
+
     :root {
       --bg: #050608;
       --grid-line: rgba(170, 180, 200, 0.035);
@@ -39,6 +46,9 @@
       --pink-deep: #ff2f6e;
       --cyan: #2dd4ff;
       --blue: #2cb0e2;
+      --header-font: "Square", "Helvetica Neue", Arial, sans-serif;
+      --body-font: "Helvetica Neue", Arial, sans-serif;
+      /* swap for Eras BQ once file is provided */
     }
 
     * {
@@ -103,15 +113,233 @@
       transform: translateY(-2px);
     }
 
-    /* blue accent box on the right edge */
-    .blue-box {
+    /* top-left navigation bar */
+    .nav-menu {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      z-index: 10;
+      display: flex;
+      align-items: stretch;
+      height: 38px;
+      background: rgba(5, 6, 8, 0.82);
+      border: 1px solid rgba(170, 180, 200, 0.10);
+    }
+
+    .nav-toggle {
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      background: none;
+      border: none;
+      border-right: 1px solid rgba(170, 180, 200, 0.10);
+      cursor: pointer;
+    }
+
+    .nav-toggle img {
+      width: 18px;
+      height: auto;
+      display: block;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      text-decoration: none;
+      color: #fff;
+      font-family: var(--header-font);
+      font-size: 1em;
+      letter-spacing: 0.1em;
+      border-right: 1px solid rgba(170, 180, 200, 0.10);
+    }
+
+    .nav-item:last-child {
+      border-right: none;
+    }
+
+    .nav-item img {
+      width: 20px;
+      height: auto;
+      display: block;
+    }
+
+    .nav-item:not(.selected) .nav-icon--black {
+      display: none;
+    }
+
+    .nav-item.selected {
+      background: var(--cyan);
+      color: #000;
+    }
+
+    .nav-item.selected .nav-icon--black {
+      display: block;
+    }
+
+    .nav-item.selected .nav-icon--white {
+      display: none;
+    }
+
+    /* page sections — fixed overlay, shown by nav */
+    @keyframes sectionFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-section {
+      position: fixed;
+      inset: 0;
+      z-index: 7;
+      background: var(--bg);
+      overflow-y: auto;
+    }
+
+    .page-section[hidden] {
+      display: none;
+    }
+
+    .page-section:not([hidden]) {
+      animation: sectionFadeIn 0.35s ease;
+    }
+
+    .section-inner {
+      padding: 72px 48px 48px 36px;
+      min-height: 100%;
+    }
+
+    .section-heading {
+      position: relative;
+      font-family: var(--header-font);
+      font-size: 2.4rem;
+      font-weight: normal;
+      letter-spacing: 0.04em;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+
+    /* cyan accent bar — left screen edge, vertically aligned with section title */
+    .section-heading::before {
+      content: '';
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 3em;
-      height: 10em;
-      background: var(--blue);
-      z-index: 6;
+      left: -36px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 1.2em;
+      background: var(--cyan);
+    }
+
+    /* cases tabs */
+    .cases-tabs {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: #111214;
+      border: 1px solid rgba(170, 180, 200, 0.12);
+      height: 42px;
+      padding: 0 20px;
+      margin-bottom: 32px;
+    }
+
+    .cases-tab {
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.45);
+      font-family: var(--body-font);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      cursor: pointer;
+      padding: 0 14px;
+      height: 100%;
+      white-space: nowrap;
+      transition: color 0.15s;
+    }
+
+    .cases-tab.selected {
+      color: #fff;
+    }
+
+    .tab-sep {
+      color: rgba(170, 180, 200, 0.35);
+      font-size: 12px;
+      user-select: none;
+    }
+
+    /* cases grid */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px 20px;
+    }
+
+    .case-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .case-thumb {
+      width: 100%;
+      aspect-ratio: 4/3;
+      background: #111;
+      border: 2px solid rgba(10, 10, 12, 0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .case-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(100%);
+      transition: filter 0.35s ease;
+    }
+
+    .yt-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.25);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .yt-overlay img {
+      width: 65px;
+      height: auto;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+    }
+
+    .case-item:hover .case-thumb img {
+      filter: grayscale(0%);
+    }
+
+    .case-item:hover .yt-overlay {
+      opacity: 1;
+    }
+
+    .case-name {
+      font-family: var(--body-font);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      line-height: 1.4;
     }
 
     /* center logo */
@@ -125,6 +353,12 @@
       pointer-events: none;
       user-select: none;
       width: min(1100px, 78vw);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .center.small {
+      opacity: 0;
+      transform: translate(-50%, -55%) scale(0.9);
     }
 
     .logo-img {
@@ -142,6 +376,13 @@
       z-index: 4;
       pointer-events: none;
       animation: earsFlicker 60s ease-in-out infinite;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      transform-origin: bottom left;
+    }
+
+    .ears.small {
+      opacity: 0;
+      transform: scale(0.45) translateY(20%);
     }
 
     .ears svg {
@@ -171,6 +412,11 @@
         filter:
           drop-shadow(0 0 3px rgba(255, 90, 138, 0.55)) drop-shadow(0 0 20px rgba(255, 90, 138, 0.40)) drop-shadow(0 0 25px rgba(255, 90, 138, 0.14))
       }
+    }
+
+    .ear-wash.small {
+      animation: none;
+      opacity: 0;
     }
 
     /* ear glow wash — follows ear position */
@@ -214,10 +460,6 @@
         height: 38px;
       }
 
-      .blue-box {
-        display: none;
-      }
-
       .center {
         width: 86vw;
       }
@@ -239,6 +481,18 @@
             rgba(255, 90, 138, 0.02) 75%,
             transparent 100%);
       }
+
+      .section-inner {
+        padding: 72px 16px 48px 28px;
+      }
+
+      .section-heading::before {
+        left: -28px;
+      }
+
+      .cases-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
   </style>
 </head>
@@ -248,6 +502,32 @@
   <canvas id="cursor-glow" aria-hidden="true" width="1028" height="1084"
     style="width: 1028px; height: 1084px;"></canvas>
   <div class="ear-wash" aria-hidden="true"></div>
+
+  <nav class="nav-menu" aria-label="Navegação principal">
+    <!-- <button class="nav-toggle" aria-label="Menu">
+      <img src="./assets/menu-branco.png" alt="">
+    </button> -->
+    <a href="#" class="nav-item selected" data-section="home" aria-current="page">
+      <img src="./assets/home-branco.png" class="nav-icon nav-icon--white" alt="">
+      <img src="./assets/home-preto.png" class="nav-icon nav-icon--black" alt="">
+      <span>HOME</span>
+    </a>
+    <a href="#" class="nav-item" data-section="portfolio">
+      <img src="./assets/portfolio-branco.png" class="nav-icon nav-icon--white" alt="">
+      <img src="./assets/portfolio-preto.png" class="nav-icon nav-icon--black" alt="">
+      <span>PORTFOLIO</span>
+    </a>
+    <a href="#" class="nav-item" data-section="sobre">
+      <img src="./assets/sobre-branco.png" class="nav-icon nav-icon--white" alt="">
+      <img src="./assets/sobre-preto.png" class="nav-icon nav-icon--black" alt="">
+      <span>SOBRE NÓS</span>
+    </a>
+    <a href="#" class="nav-item" data-section="contato">
+      <img src="./assets/contato-branco.png" class="nav-icon nav-icon--white" alt="">
+      <img src="./assets/contato-preto.png" class="nav-icon nav-icon--black" alt="">
+      <span>CONTATO</span>
+    </a>
+  </nav>
 
   <!--
 
@@ -276,11 +556,102 @@
     </a>
   </nav>
 -->
-  <!-- <div class="blue-box" aria-hidden="true"></div> -->
+  <section class="page-section" id="section-portfolio" aria-labelledby="heading-portfolio" hidden>
+    <div class="section-inner">
+      <h2 class="section-heading" id="heading-portfolio">// PORTFOLIO</h2>
+      <!-- <nav class="cases-tabs" aria-label="Categorias">
+        <button class="cases-tab selected" data-tab="transmissao">TRANSMISSÃO AO VIVO</button>
+        <span class="tab-sep">|</span>
+        <button class="cases-tab" data-tab="podcast">PODCAST</button>
+        <span class="tab-sep">|</span>
+        <button class="cases-tab" data-tab="cobertura">COBERTURA</button>
+        <span class="tab-sep">|</span>
+        <button class="cases-tab" data-tab="fomentos">FOMENTOS</button>
+      </nav> -->
+      <div class="cases-grid">
+        <a class="case-item" href="https://www.youtube.com/watch?v=ybT2GLXE0m8" target="_blank" rel="noopener">
+          <div class="case-thumb">
+            <img src="media/ForumLGBT.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Forum LGBT+</p>
+        </a>
+        <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG_-KwM4dc8MOZU2oBcopSQr" target="_blank"
+          rel="noopener">
+          <div class="case-thumb">
+            <img src="media/bff25.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Brasil FurFest 2025</p>
+        </a>
+        <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG_xkA_If0-LclerkgcvGoz9" target="_blank"
+          rel="noopener">
+          <div class="case-thumb">
+            <img src="media/live25.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Live Brasil FurFest</p>
+        </a>
+        <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG-b6fTCljRVcpS0umpAPa0d" target="_blank"
+          rel="noopener">
+          <div class="case-thumb">
+            <img src="media/bff24.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Brasil FurFest 2024</p>
+        </a>
+        <a class="case-item" href="https://www.youtube.com/watch?v=-JmGTC2xEF4" target="_blank" rel="noopener">
+          <div class="case-thumb">
+            <img src="media/gsr.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Gênero Sexualidade e Rugby</p>
+        </a>
+        <a class="case-item" href="https://www.youtube.com/live/eh5f9D1nDik?t=4210" target="_blank" rel="noopener">
+          <div class="case-thumb">
+            <img src="media/transaber.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">TransSaber</p>
+        </a>
+        <a class="case-item" href="https://youtu.be/ibyybhkhqwc?t=124" target="_blank" rel="noopener">
+          <div class="case-thumb">
+            <img src="media/vozes.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Encuentros en Movimiento</p>
+        </a>
+        <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG9Z6l-UJG9TXpjK9oY4Ymuz" target="_blank"
+          rel="noopener">
+          <div class="case-thumb">
+            <img src="media/patas%202024.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Patas 2024</p>
+        </a>
+        <a class="case-item" href="https://www.youtube.com/watch?v=Qcs414lzg8M&t=230s" target="_blank" rel="noopener">
+          <div class="case-thumb">
+            <img src="media/shine.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Podcast Shine</p>
+        </a>
+        <a class="case-item" href="https://www.youtube.com/live/ztjYkxMp3us?t=8190" target="_blank" rel="noopener">
+          <div class="case-thumb">
+            <img src="media/autorama.jpg" alt="">
+            <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
+          </div>
+          <p class="case-name">Podcast Autorama</p>
+        </a>
+      </div>
+    </div>
+  </section>
 
-  <div class="center">
-    <img class="logo-img" src="./assets/main-logo.svg" alt="BROADCATZ — Soluções Audiovisuais">
-  </div>
+  <section id="section-home">
+    <div class="center">
+      <img class="logo-img" src="./assets/main-logo.svg" alt="BROADCATZ — Soluções Audiovisuais">
+    </div>
+  </section>
 
   <div class="ears" aria-hidden="true">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 966.88 517.94">
