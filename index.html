@@ -7,6 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BROADCATZ — Soluções Audiovisuais</title>
   <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="preload" href="./assets/squarefont/Square.ttf" as="font" type="font/ttf" crossorigin>
+  <!-- TODO: set long-lived cache headers (Cache-Control: max-age=31536000, immutable) for assets/ and media/ — GitHub Pages doesn't support custom headers; consider a _headers file via Cloudflare Pages or a CDN in front -->
 
   <!-- SEO -->
   <meta name="description"
@@ -409,6 +411,9 @@
       stroke-linejoin: round;
     }
 
+    /* TODO: earsFlicker uses filter:drop-shadow which forces a main-thread paint on every frame (non-composited).
+       Fix: move the glow to a separate ::after pseudo-element or sibling div animated with opacity only,
+       so the browser can handle it entirely on the compositor thread. */
     @keyframes earsFlicker {
 
       0%,
@@ -758,15 +763,15 @@
       <div class="cases-grid">
         <a class="case-item" href="https://www.youtube.com/watch?v=ybT2GLXE0m8" target="_blank" rel="noopener">
           <div class="case-thumb">
-            <img src="media/ForumLGBT.jpg" alt="">
+            <img loading="lazy" src="media/ForumLGBT.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
-          <p class="case-name">Forum LGBT+</p>
+          <p class="case-name">Fórum LGBT+</p>
         </a>
         <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG_-KwM4dc8MOZU2oBcopSQr" target="_blank"
           rel="noopener">
           <div class="case-thumb">
-            <img src="media/bff25.jpg" alt="">
+            <img loading="lazy" src="media/bff25.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">Brasil FurFest 2025</p>
@@ -774,7 +779,7 @@
         <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG_xkA_If0-LclerkgcvGoz9" target="_blank"
           rel="noopener">
           <div class="case-thumb">
-            <img src="media/live25.jpg" alt="">
+            <img loading="lazy" src="media/live25.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">Live Brasil FurFest</p>
@@ -782,28 +787,28 @@
         <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG-b6fTCljRVcpS0umpAPa0d" target="_blank"
           rel="noopener">
           <div class="case-thumb">
-            <img src="media/bff24.jpg" alt="">
+            <img loading="lazy" src="media/bff24.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">Brasil FurFest 2024</p>
         </a>
         <a class="case-item" href="https://www.youtube.com/watch?v=-JmGTC2xEF4" target="_blank" rel="noopener">
           <div class="case-thumb">
-            <img src="media/gsr.jpg" alt="">
+            <img loading="lazy" src="media/gsr.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
-          <p class="case-name">Gênero Sexualidade e Rugby</p>
+          <p class="case-name">Gênero, Sexualidade e Rugby</p>
         </a>
         <a class="case-item" href="https://www.youtube.com/live/eh5f9D1nDik?t=4210" target="_blank" rel="noopener">
           <div class="case-thumb">
-            <img src="media/transaber.jpg" alt="">
+            <img loading="lazy" src="media/transaber.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">TransSaber</p>
         </a>
         <a class="case-item" href="https://youtu.be/ibyybhkhqwc?t=124" target="_blank" rel="noopener">
           <div class="case-thumb">
-            <img src="media/vozes.jpg" alt="">
+            <img loading="lazy" src="media/vozes.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">Encuentros en Movimiento</p>
@@ -811,21 +816,21 @@
         <a class="case-item" href="https://youtube.com/playlist?list=PL6tvv6LxnlG9Z6l-UJG9TXpjK9oY4Ymuz" target="_blank"
           rel="noopener">
           <div class="case-thumb">
-            <img src="media/patas%202024.jpg" alt="">
+            <img loading="lazy" src="media/patas%202024.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">Patas 2024</p>
         </a>
         <a class="case-item" href="https://www.youtube.com/watch?v=Qcs414lzg8M&t=230s" target="_blank" rel="noopener">
           <div class="case-thumb">
-            <img src="media/shine.jpg" alt="">
+            <img loading="lazy" src="media/shine.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">Podcast Shine</p>
         </a>
         <a class="case-item" href="https://www.youtube.com/live/ztjYkxMp3us?t=8190" target="_blank" rel="noopener">
           <div class="case-thumb">
-            <img src="media/autorama.jpg" alt="">
+            <img loading="lazy" src="media/autorama.jpg" alt="">
             <div class="yt-overlay" aria-hidden="true"><img src="assets/yt-icon.svg" alt=""></div>
           </div>
           <p class="case-name">Podcast Autorama</p>
@@ -840,17 +845,18 @@
       <h2 class="section-heading" id="heading-sobre">QUEM É A BROADCATZ?</h2>
 
       <div class="sobre-intro">
-        <p>A Broadcatz nasce da união entre a Pondero Produções, de Annie Migliori, e a Bit Produções, de Nelci Gomes
+        <p>A Broadcatz nasce da união entre a Pondero Produções, de Annie Migliorini, e a Bit Produções, de Nelci Gomes
           Junior. Com mais de 15 anos de experiência no audiovisual independente, já realizaram projetos para Accor
           Brasil, Fórum LGBTQI+, Brasil FurFest e diversos estúdios de podcast de São Paulo.</p>
         <p>Hoje, a Broadcatz oferece soluções criativas para produções e transmissões audiovisuais.</p>
       </div>
 
+      <!-- TODO: convert team photos to WebP and compress — red.jpg=803KB, annie.jpg=787KB, agatha.jpg=749KB; target <100KB each -->
       <div class="team-grid">
 
         <div class="team-card">
           <div class="team-card-photo">
-            <img src="media/team/annie.jpg" alt="Annie Migliorini">
+            <img loading="lazy" src="media/team/annie.jpg" alt="Annie Migliorini">
           </div>
           <div class="team-card-content">
             <div class="team-card-header">
@@ -871,14 +877,14 @@
             <p class="team-card-bio">Trans neurodiversa, formada em Rádio e TV, com experiência em eventos e logística.
               Atuou no Anime Sampa, primeiro evento de anime gratuito de São Paulo, e como produtora no Coletivo
               Pondero, participando de projetos para o Museu da Língua Portuguesa e do programa Vocacional. Também
-              co-dirigiu o documentário "Gênero, Sexualidade e Rugby" e dirigiu cortes de lives para o Fórum de Empresas
+              codirigiu o documentário "Gênero, Sexualidade e Rugby" e dirigiu cortes de lives para o Fórum de Empresas
               LGBTQIAP+ da Accor Brasil.</p>
           </div>
         </div>
 
         <div class="team-card">
           <div class="team-card-photo">
-            <img src="media/team/red.jpg" alt="Nelci Gomes">
+            <img loading="lazy" src="media/team/red.jpg" alt="Nelci Gomes">
           </div>
           <div class="team-card-content">
             <div class="team-card-header">
@@ -905,7 +911,7 @@
 
         <div class="team-card">
           <div class="team-card-photo">
-            <img src="media/team/agatha.jpg" alt="Agatha Trindade">
+            <img loading="lazy" src="media/team/agatha.jpg" alt="Agatha Trindade">
           </div>
           <div class="team-card-content">
             <div class="team-card-header">
