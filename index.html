@@ -11,31 +11,16 @@
   <link rel="preload" href="./assets/squarefont/Square.ttf" as="font" type="font/ttf" crossorigin>
   <noscript>
     <style>
-      /* Without JS, sections are hidden by default — override to show them all in a linear flow */
-      html, body { overflow: auto !important; height: auto !important; }
-      body { position: relative; padding-top: 140px; }
-      .nav-menu, #cursor-glow, .grid, .ears, .ear-wash { display: none !important; }
-      /* Logo: pin to top of page via absolute, DOM order doesn't matter */
-      .center {
-        position: absolute !important;
-        top: 20px !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-        width: min(500px, 75vw) !important;
-        text-align: center;
-      }
-      .page-section[hidden] { display: block !important; }
-      .page-section {
-        position: static !important;
-        overflow: visible !important;
-        background: transparent;
-        animation: none !important;
+      .nav-menu,
+      #cursor-glow,
+      .ears,
+      .ear-wash {
+        display: none !important;
       }
     </style>
   </noscript>
   <!-- TODO: set long-lived cache headers (Cache-Control: max-age=31536000, immutable) for assets/ and media/ — GitHub Pages doesn't support custom headers; consider a _headers file via Cloudflare Pages or a CDN in front -->
 
-  <!-- SEO -->
   <meta name="description"
     content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
 
@@ -58,738 +43,79 @@
   <meta name="twitter:description"
     content="Na Broadcatz, transformamos eventos em experiências completas com soluções de áudio e vídeo para o mundo corporativo, esportivo e do entretenimento. Produção, transmissão e mídia com qualidade profissional.">
   <meta name="twitter:image" content="https://broadcatz.com.br/assets/preview.png">
-  <script>if(location.hash&&location.hash.replace('#','')!=='home')document.documentElement.classList.add('has-hash');</script>
-  <style>
-    html.has-hash .center,
-    html.has-hash .ears,
-    html.has-hash .ear-wash {
-      opacity: 0 !important;
-      transition: none !important;
-      animation: none !important;
-    }
-
-    @font-face {
-      font-family: "Square";
-      src: url("./assets/squarefont/Square.ttf") format("truetype");
-      font-weight: normal;
-      font-display: swap;
-    }
-
-    :root {
-      --bg: #050608;
-      --grid-line: rgba(170, 180, 200, 0.035);
-      --pink: #ff5a8a;
-      --pink-deep: #ff2f6e;
-      --cyan: #2dd4ff;
-      --blue: #2cb0e2;
-      --header-font: "Square", "Helvetica Neue", Arial, sans-serif;
-      --body-font: "Helvetica Neue", Arial, sans-serif;
-      /* swap for Eras BQ once file is provided */
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      width: 100%;
-      height: 100%;
-      background: var(--bg);
-      color: #fff;
-      overflow: hidden;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-    }
-
-    /* static grid (no mouse deformation) */
-    .grid {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-image:
-        linear-gradient(var(--grid-line) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-      background-size: 56px 56px;
-      background-position: -1px -1px;
-    }
-
-    /* canvas overlay that brightens grid lines around the cursor */
-    #cursor-glow {
-      position: fixed;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-      mix-blend-mode: screen;
-    }
-
-    /* social icons */
-    .socials {
-      position: absolute;
-      top: 28px;
-      right: 120px;
-      display: flex;
-      gap: 14px;
-      z-index: 6;
-    }
-
-    .socials a {
-      width: 46px;
-      height: 46px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      transition: transform .2s ease;
-    }
-
-    .socials a:hover {
-      transform: translateY(-2px);
-    }
-
-    /* top-left navigation bar */
-    .nav-menu {
-      position: fixed;
-      top: 14px;
-      left: 14px;
-      z-index: 10;
-      display: flex;
-      align-items: stretch;
-      height: 38px;
-      background: rgba(5, 6, 8, 0.82);
-      border: 1px solid rgba(170, 180, 200, 0.10);
-    }
-
-    .nav-toggle {
-      display: flex;
-      align-items: center;
-      padding: 0 12px;
-      background: none;
-      border: none;
-      border-right: 1px solid rgba(170, 180, 200, 0.10);
-      cursor: pointer;
-    }
-
-    .nav-toggle img {
-      width: 18px;
-      height: auto;
-      display: block;
-    }
-
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 0 14px;
-      text-decoration: none;
-      color: #fff;
-      font-family: var(--header-font);
-      font-size: 1em;
-      letter-spacing: 0.1em;
-      border-right: 1px solid rgba(170, 180, 200, 0.10);
-    }
-
-    .nav-item:last-child {
-      border-right: none;
-    }
-
-    .nav-item img {
-      width: 20px;
-      height: auto;
-      display: block;
-    }
-
-    .nav-item:not(.selected) .nav-icon--black {
-      display: none;
-    }
-
-    .nav-item.selected {
-      background: var(--cyan);
-      color: #000;
-    }
-
-    .nav-item.selected .nav-icon--black {
-      display: block;
-    }
-
-    .nav-item.selected .nav-icon--white {
-      display: none;
-    }
-
-    /* page sections — fixed overlay, shown by nav */
-    @keyframes sectionFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .page-section {
-      position: fixed;
-      inset: 0;
-      z-index: 7;
-      background: var(--bg);
-      overflow-y: auto;
-    }
-
-    .page-section[hidden] {
-      display: none;
-    }
-
-    .page-section:not([hidden]) {
-      animation: sectionFadeIn 0.35s ease;
-    }
-
-    .section-inner {
-      padding: 72px 48px 48px 36px;
-      min-height: 100%;
-    }
-
-    .section-heading {
-      position: relative;
-      font-family: var(--header-font);
-      font-size: 2.4rem;
-      font-weight: normal;
-      letter-spacing: 0.04em;
-      color: #fff;
-      margin-bottom: 28px;
-    }
-
-    /* cyan accent bar — left screen edge, vertically aligned with section title */
-    .section-heading::before {
-      content: '';
-      position: absolute;
-      left: -36px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 12px;
-      height: 1.2em;
-      background: var(--cyan);
-    }
-
-    /* cases tabs */
-    .cases-tabs {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      background: #111214;
-      border: 1px solid rgba(170, 180, 200, 0.12);
-      height: 42px;
-      padding: 0 20px;
-      margin-bottom: 32px;
-    }
-
-    .cases-tab {
-      background: none;
-      border: none;
-      color: rgba(255, 255, 255, 0.45);
-      font-family: var(--body-font);
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      cursor: pointer;
-      padding: 0 14px;
-      height: 100%;
-      white-space: nowrap;
-      transition: color 0.15s;
-    }
-
-    .cases-tab.selected {
-      color: #fff;
-    }
-
-    .tab-sep {
-      color: rgba(170, 180, 200, 0.35);
-      font-size: 12px;
-      user-select: none;
-    }
-
-    /* cases grid */
-    .cases-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 24px 20px;
-    }
-
-    .case-item {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      text-decoration: none;
-      color: inherit;
-    }
-
-    .case-thumb {
-      width: 100%;
-      aspect-ratio: 4/3;
-      background: #111;
-      border: 2px solid rgba(10, 10, 12, 0.6);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .case-thumb img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(100%);
-      transition: filter 0.35s ease;
-    }
-
-    .yt-overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.25);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      pointer-events: none;
-    }
-
-    .yt-overlay img {
-      width: 65px;
-      height: auto;
-      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
-    }
-
-    .case-item:hover .case-thumb img {
-      filter: grayscale(0%);
-    }
-
-    .case-item:hover .yt-overlay {
-      opacity: 1;
-    }
-
-    .case-name {
-      font-family: var(--body-font);
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.7);
-      text-align: center;
-      line-height: 1.4;
-    }
-
-    /* center logo */
-    .center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -55%);
-      z-index: 5;
-      text-align: center;
-      pointer-events: none;
-      user-select: none;
-      width: min(1100px, 78vw);
-      transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-
-    .center.small {
-      opacity: 0;
-      transform: translate(-50%, -55%) scale(0.9);
-    }
-
-    .logo-img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* cat ears — bottom LEFT */
-    .ears {
-      position: fixed;
-      left: -3vw;
-      bottom: -4vh;
-      height: 33vh;
-      z-index: 4;
-      pointer-events: none;
-      animation: earsFlicker 60s ease-in-out infinite;
-      transition: opacity 0.4s ease, transform 0.4s ease;
-      transform-origin: bottom left;
-    }
-
-    .ears.small {
-      opacity: 0;
-      transform: scale(0.45) translateY(20%);
-    }
-
-    .ears svg {
-      width: auto;
-      height: 100%;
-      display: block;
-      overflow: visible;
-    }
-
-    .ears .ear-stroke {
-      fill: none;
-      stroke: var(--pink);
-      stroke-width: 5;
-      stroke-miterlimit: 10;
-      stroke-linejoin: round;
-    }
-
-    /* TODO: earsFlicker uses filter:drop-shadow which forces a main-thread paint on every frame (non-composited).
-       Fix: move the glow to a separate ::after pseudo-element or sibling div animated with opacity only,
-       so the browser can handle it entirely on the compositor thread. */
-    @keyframes earsFlicker {
-
-      0%,
-      100% {
-        filter:
-          drop-shadow(0 0 2px rgba(255, 90, 138, 0.40)) drop-shadow(0 0 14px rgba(255, 90, 138, 0.28)) drop-shadow(0 0 36px rgba(255, 90, 138, 0.18)) drop-shadow(0 0 40px rgba(255, 90, 138, 0.10));
-      }
-
-      50% {
-        filter:
-          drop-shadow(0 0 3px rgba(255, 90, 138, 0.55)) drop-shadow(0 0 20px rgba(255, 90, 138, 0.40)) drop-shadow(0 0 25px rgba(255, 90, 138, 0.14))
-      }
-    }
-
-    .ear-wash.small {
-      animation: none;
-      opacity: 0;
-    }
-
-    /* ear glow wash — follows ear position */
-    .ear-wash {
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(60vw 70vh at 18vw 95vh,
-          rgba(255, 90, 138, 0.35) 0%,
-          rgba(255, 90, 138, 0.24) 18%,
-          rgba(255, 90, 138, 0.14) 35%,
-          rgba(255, 90, 138, 0.06) 55%,
-          rgba(255, 90, 138, 0.02) 75%,
-          transparent 100%);
-      z-index: 1;
-      pointer-events: none;
-      mix-blend-mode: screen;
-      animation: washPulse 10s ease-in-out infinite;
-    }
-
-    @keyframes washPulse {
-
-      0%,
-      100% {
-        opacity: 0.70;
-      }
-
-      50% {
-        opacity: 1.00;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .nav-item span {
-        display: none;
-      }
-
-      .nav-item {
-        padding: 0 13px;
-      }
-
-      .socials {
-        right: 90px;
-        gap: 10px;
-      }
-
-      .socials a {
-        width: 38px;
-        height: 38px;
-      }
-
-      .center {
-        width: 86vw;
-      }
-
-      .ears {
-        width: 40vh;
-        height: auto;
-        left: 50%;
-        transform: translateX(-50%);
-      }
-
-      .ear-wash {
-        background:
-          radial-gradient(60vw 40vh at 50vw 95vh,
-            rgba(255, 90, 138, 0.35) 0%,
-            rgba(255, 90, 138, 0.24) 18%,
-            rgba(255, 90, 138, 0.14) 35%,
-            rgba(255, 90, 138, 0.06) 55%,
-            rgba(255, 90, 138, 0.02) 75%,
-            transparent 100%);
-      }
-
-      .section-inner {
-        padding: 72px 16px 48px 28px;
-      }
-
-      .section-heading::before {
-        left: -28px;
-      }
-
-      .cases-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    /* ── SOBRE NÓS ─────────────────────────────────── */
-    #section-sobre .section-heading::before {
-      background: var(--pink);
-    }
-
-    .sobre-intro {
-      font-size: 1rem;
-      line-height: 1.82;
-      color: rgba(255, 255, 255, 0.82);
-      max-width: 960px;
-      margin-bottom: 48px;
-    }
-
-    .sobre-intro p+p {
-      margin-top: 16px;
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .team-card {
-      display: flex;
-      flex-direction: row;
-      background: #0c0e12;
-      border: 1px solid rgba(170, 180, 200, 0.08);
-      overflow: hidden;
-      transition: border-color 0.3s ease;
-    }
-
-    .team-card:hover {
-      border-color: rgba(45, 212, 255, 0.22);
-    }
-
-    .team-card-photo {
-      width: 155px;
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-
-    .team-card-photo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      filter: grayscale(20%);
-      transition: filter 0.4s ease;
-    }
-
-    .team-card:hover .team-card-photo img {
-      filter: grayscale(0%);
-    }
-
-    .team-card-content {
-      flex: 1;
-      padding: 14px 14px 10px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .team-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 10px;
-    }
-
-    .team-card-name {
-      font-family: var(--header-font);
-      font-size: 1.1rem;
-      letter-spacing: 0.05em;
-      color: #fff;
-      font-weight: normal;
-      line-height: 1.2;
-    }
-
-    .team-card-bio {
-      font-size: 0.715rem;
-      line-height: 1.68;
-      color: rgba(255, 255, 255, 0.58);
-      flex: 1;
-    }
-
-    .team-card-socials {
-      display: flex;
-      gap: 8px;
-      flex-shrink: 0;
-      margin-left: 8px;
-    }
-
-    .team-card-social {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--cyan);
-      text-decoration: none;
-      width: 30px;
-      height: 30px;
-      border: 1px solid rgba(45, 212, 255, 0.22);
-      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-    }
-
-    .team-card-social:hover {
-      background: rgba(45, 212, 255, 0.08);
-      border-color: rgba(45, 212, 255, 0.48);
-      transform: translateY(-2px);
-    }
-
-    @media (max-width: 960px) {
-      .team-grid {
-        grid-template-columns: 1fr;
-        max-width: 560px;
-      }
-
-      .team-card-photo {
-        width: 140px;
-      }
-
-      .team-card:first-child .team-card-photo img,
-      .team-card:nth-child(2) .team-card-photo img {
-        object-position: center 15%;
-      }
-    }
-
-    @media (max-width: 720px) {
-      .team-card {
-        flex-direction: column;
-      }
-
-      .team-card-photo {
-        width: 100%;
-        height: 220px;
-      }
-
-      .team-card:first-child .team-card-photo img,
-      .team-card:nth-child(2) .team-card-photo img {
-        object-position: center 15%;
-      }
-    }
-
-    /* ── CONTATO ─────────────────────────────────── */
-    .contato-form {
-      max-width: 760px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .form-loading-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(28, 30, 38, 0.88);
-      pointer-events: none;
-      transition: opacity 0.7s ease;
-    }
-
-    .form-loading-overlay:not(.done) {
-      animation: formLoadPulse 2.8s ease-in-out infinite;
-    }
-
-    .form-loading-overlay.done {
-      opacity: 0;
-    }
-
-    @keyframes formLoadPulse {
-      0%, 100% { opacity: 0.45; }
-      50%       { opacity: 0.85; }
-    }
-  </style>
+  <link rel="stylesheet" href="./assets/main.css">
 </head>
 
 <body>
   <noscript>
-    <div style="background:var(--cyan);color:#000;padding:10px 24px;text-align:center;font-family:Arial,sans-serif;font-size:0.9rem">
+    <div
+      style="background:var(--cyan);color:#000;padding:10px 24px;text-align:center;font-family:Arial,sans-serif;font-size:0.9rem">
       Para a melhor experiência, ative o JavaScript no seu navegador.
     </div>
   </noscript>
   <div class="grid" aria-hidden="true"></div>
   <canvas id="cursor-glow" aria-hidden="true" width="1028" height="1084"
     style="width: 1028px; height: 1084px;"></canvas>
-  <div class="ear-wash" aria-hidden="true"></div>
-
   <nav class="nav-menu" aria-label="Navegação principal">
-    <!-- <button class="nav-toggle" aria-label="Menu">
-      <img src="./assets/menu-branco.png" alt="">
-    </button> -->
-    <a href="#" class="nav-item selected" data-section="home" aria-current="page">
+    <a href="#section-home" class="nav-item selected" data-section="home" aria-current="page">
       <img src="./assets/home-branco.png" class="nav-icon nav-icon--white" alt="">
       <img src="./assets/home-preto.png" class="nav-icon nav-icon--black" alt="">
       <span>HOME</span>
     </a>
-    <a href="#" class="nav-item" data-section="portfolio">
+    <a href="#section-portfolio" class="nav-item" data-section="portfolio">
       <img src="./assets/portfolio-branco.png" class="nav-icon nav-icon--white" alt="">
       <img src="./assets/portfolio-preto.png" class="nav-icon nav-icon--black" alt="">
       <span>PORTFOLIO</span>
     </a>
-    <a href="#" class="nav-item" data-section="sobre">
+    <a href="#section-sobre" class="nav-item" data-section="sobre">
       <img src="./assets/sobre-branco.png" class="nav-icon nav-icon--white" alt="">
       <img src="./assets/sobre-preto.png" class="nav-icon nav-icon--black" alt="">
       <span>SOBRE NÓS</span>
     </a>
-    <a href="#" class="nav-item" data-section="contato">
+    <a href="#section-contato" class="nav-item" data-section="contato">
       <img src="./assets/contato-branco.png" class="nav-icon nav-icon--white" alt="">
       <img src="./assets/contato-preto.png" class="nav-icon nav-icon--black" alt="">
       <span>CONTATO</span>
     </a>
   </nav>
 
-  <!--
+  <section id="section-home">
+    <div class="center">
+      <img class="logo-img" src="./assets/main-logo.svg" alt="BROADCATZ — Soluções Audiovisuais" fetchpriority=high>
+    </div>
+    <div class="ear-wash" aria-hidden="true"></div>
+    <div class="ears" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 966.88 517.94">
+        <defs>
+          <symbol id="bc-ears-paths" overflow="visible">
+            <path
+              d="M3.5,467.44C5.15,456.63,6.9,445.83,8.44,435c6.25-44.16,12.21-88.37,18.73-132.5q9.73-65.94,20.38-131.74C54.12,130.37,60.69,90,71.63,50.43a61.1,61.1,0,0,1,7.2-16.32c13.44-21,36.71-25,55.74-8.79,12.12,10.33,23,22.19,33.86,33.91A1152.22,1152.22,0,0,1,291.37,217.7a897.41,897.41,0,0,1,65.82,120.89c1.27,2.85,2.72,3.93,5.72,4.28,52.59,6.22,104.74,15.2,156.66,25.52,11.62,2.31,14.38,8.95,8,19.08-2.12,3.38-4.34,6.71-6.34,10.16-2.83,4.91-7.23,6.75-12.57,6.43q-81.56-4.81-163.1-9.79c-5.65-.35-11.26-1.21-16.88-1.86-4.36-.5-7.27-2.84-9-6.88-20.5-47.32-46.64-91.57-73.89-135.2-32.55-52.12-67.05-102.92-104-152.06C134.16,88,126,78.08,118,68.1c-2.7-3.35-5.82-6.37-10-10.88-2.48,6.7-5.5,12.19-6.49,18-5.93,35.11-11.82,70.24-16.89,105.49C79.22,218.29,74.16,255.92,70,293.64q-6.32,57.58-10.37,115.42c-2.08,29.89-2.4,59.9-3.52,89.86-.37,9.89-6.3,14.88-14.2,11.77a16,16,0,0,1-4.69-3.49c-9.32-8.77-18.67-17.5-27.79-26.48-2.39-2.35-4-5.5-6-8.28Z">
+            </path>
+            <path
+              d="M963.38,510.44c-9.26-1.08-18.51-2.25-27.79-3.18-3.53-.35-4.94-1.56-5.19-5.45-3.94-61.16-7.59-122.34-12.31-183.44-4.28-55.28-9.75-110.47-18.92-165.19-3.29-19.64-8.2-39-12.79-58.44-3.15-13.28-11.44-24-19.81-34.23-9.72-11.91-21.71-12.61-32.2-1.4-22.06,23.58-44.17,47.21-64.81,72-52.17,62.71-99.29,129-138.59,200.67-20.6,37.56-38.59,76.29-50.77,117.5a20.69,20.69,0,0,1-1.09,2.29c-1-1.46-1.69-2.63-2.49-3.75-4.83-6.77-9.07-14.1-14.73-20.09-4.47-4.74-4.82-8.19-2.26-14.07,43-98.64,93-193.41,154.55-281.88,21.51-30.93,44.47-60.7,70.87-87.74C799,29.79,815.62,19.5,832.67,9.77c5.1-2.91,11.12-4.22,16.72-6.27h11a5.07,5.07,0,0,0,1.19.82c18.32,6,30.55,19.88,38.18,35.93,8.71,18.31,14.21,38.34,19.52,58,18.55,68.86,28.15,139.29,33.85,210.19,4.36,54.26,6.45,108.71,9.58,163.07.09,1.64.44,3.26.67,4.89Z">
+            </path>
+            <path
+              d="M834.4,514.44c-6.73-2.22-13.41-4.64-20.22-6.55-3-.84-3.83-2.17-3.88-5.17q-1.38-94.68-3-189.36a12.94,12.94,0,0,0-1.19-6.27l-94,155.2-1.07-.57L825.49,215l1.24.2q4.83,149.63,9.67,299.26Z">
+            </path>
+            <path
+              d="M138.1,456.81c14.65-2.24,28.15-4,41.51-6.47,10.93-2,21.7-5,32.5-7.66a35.37,35.37,0,0,0,6.95-2.74c7.18-3.5,7.5-5.05,2.84-11.25-41.56-55.27-65.79-117.47-74.18-186a56.06,56.06,0,0,1,0-5.66L287.45,425.61l-71.68,54.06,36.49,32.5-.45.74Z">
+            </path>
+          </symbol>
+        </defs>
+        <g class="ear-glow-group">
+          <use href="#bc-ears-paths" class="ear-glow-bloom" />
+          <use href="#bc-ears-paths" class="ear-glow-wide" />
+          <use href="#bc-ears-paths" class="ear-glow-mid" />
+          <use href="#bc-ears-paths" class="ear-glow-tight" />
+        </g>
+        <use href="#bc-ears-paths" class="ear-stroke" />
+      </svg>
+    </div>
+  </section>
 
-  <nav class="socials" aria-label="Redes sociais">
-    <a href="http://192.168.15.14:8765/#" aria-label="LinkedIn">
-      <svg viewBox="0 0 46 46" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="42" height="42" rx="4" stroke-width="2.6" style="stroke:var(--cyan)"></rect>
-        <rect x="11" y="18" width="5" height="16" style="fill:var(--cyan)"></rect>
-        <circle cx="13.5" cy="13.5" r="2.6" style="fill:var(--cyan)"></circle>
-        <path d="M21 18h5v2.3c.9-1.5 2.7-2.7 5.1-2.7 4.1 0 5.9 2.6 5.9 6.6V34h-5v-8.4c0-2-.7-3.4-2.6-3.4-2 0-2.9 1.4-2.9 3.4V34h-5V18z" style="fill:var(--cyan)"></path>
-      </svg>
-    </a>
-    <a href="http://192.168.15.14:8765/#" aria-label="TikTok">
-      <svg viewBox="0 0 46 46" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="42" height="42" rx="4" stroke-width="2.6" style="stroke:var(--pink-deep)"></rect>
-        <path d="M28 10v17.2a4.8 4.8 0 11-4.8-4.8c.5 0 1 .07 1.5.2v-4.6a9.5 9.5 0 109.5 9.5V18.7a10.2 10.2 0 005.8 1.8v-4.6a5.7 5.7 0 01-3.6-1.5A5.6 5.6 0 0134.4 10H28z" style="fill:var(--pink-deep)"></path>
-      </svg>
-    </a>
-    <a href="http://192.168.15.14:8765/#" aria-label="Instagram">
-      <svg viewBox="0 0 46 46" width="46" height="46" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="42" height="42" rx="4" stroke="#ffffff" stroke-width="2.6"></rect>
-        <rect x="12" y="12" width="22" height="22" rx="6" stroke="#ffffff" stroke-width="2.4"></rect>
-        <circle cx="23" cy="23" r="5" stroke="#ffffff" stroke-width="2.4"></circle>
-        <circle cx="30.5" cy="15.5" r="1.4" fill="#ffffff"></circle>
-      </svg>
-    </a>
-  </nav>
--->
-  <section class="page-section" id="section-portfolio" aria-labelledby="heading-portfolio" hidden>
+  <section class="page-section" id="section-portfolio" aria-labelledby="heading-portfolio">
     <div class="section-inner">
       <h2 class="section-heading" id="heading-portfolio">// PORTFOLIO</h2>
-      <!-- <nav class="cases-tabs" aria-label="Categorias">
-        <button class="cases-tab selected" data-tab="transmissao">TRANSMISSÃO AO VIVO</button>
-        <span class="tab-sep">|</span>
-        <button class="cases-tab" data-tab="podcast">PODCAST</button>
-        <span class="tab-sep">|</span>
-        <button class="cases-tab" data-tab="cobertura">COBERTURA</button>
-        <span class="tab-sep">|</span>
-        <button class="cases-tab" data-tab="fomentos">FOMENTOS</button>
-      </nav> -->
       <div class="cases-grid">
         <a class="case-item" href="https://www.youtube.com/watch?v=ybT2GLXE0m8" target="_blank" rel="noopener">
           <div class="case-thumb">
@@ -869,7 +195,7 @@
     </div>
   </section>
 
-  <section class="page-section" id="section-sobre" aria-labelledby="heading-sobre" hidden>
+  <section class="page-section" id="section-sobre" aria-labelledby="heading-sobre">
     <div class="section-inner">
 
       <h2 class="section-heading" id="heading-sobre">QUEM É A BROADCATZ?</h2>
@@ -969,37 +295,12 @@
     </div>
   </section>
 
-  <section class="page-section" id="section-contato" aria-labelledby="heading-contato" hidden>
+  <section class="page-section" id="section-contato" aria-labelledby="heading-contato">
     <div class="section-inner">
       <h2 class="section-heading" id="heading-contato">// CONTATO</h2>
       <div class="contato-form" id="contato-form-container"></div>
     </div>
   </section>
-
-  <section id="section-home">
-    <div class="center">
-      <img class="logo-img" src="./assets/main-logo.svg" alt="BROADCATZ — Soluções Audiovisuais" fetchpriority=high>
-    </div>
-  </section>
-
-  <div class="ears" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 966.88 517.94">
-      <g>
-        <path class="ear-stroke"
-          d="M3.5,467.44C5.15,456.63,6.9,445.83,8.44,435c6.25-44.16,12.21-88.37,18.73-132.5q9.73-65.94,20.38-131.74C54.12,130.37,60.69,90,71.63,50.43a61.1,61.1,0,0,1,7.2-16.32c13.44-21,36.71-25,55.74-8.79,12.12,10.33,23,22.19,33.86,33.91A1152.22,1152.22,0,0,1,291.37,217.7a897.41,897.41,0,0,1,65.82,120.89c1.27,2.85,2.72,3.93,5.72,4.28,52.59,6.22,104.74,15.2,156.66,25.52,11.62,2.31,14.38,8.95,8,19.08-2.12,3.38-4.34,6.71-6.34,10.16-2.83,4.91-7.23,6.75-12.57,6.43q-81.56-4.81-163.1-9.79c-5.65-.35-11.26-1.21-16.88-1.86-4.36-.5-7.27-2.84-9-6.88-20.5-47.32-46.64-91.57-73.89-135.2-32.55-52.12-67.05-102.92-104-152.06C134.16,88,126,78.08,118,68.1c-2.7-3.35-5.82-6.37-10-10.88-2.48,6.7-5.5,12.19-6.49,18-5.93,35.11-11.82,70.24-16.89,105.49C79.22,218.29,74.16,255.92,70,293.64q-6.32,57.58-10.37,115.42c-2.08,29.89-2.4,59.9-3.52,89.86-.37,9.89-6.3,14.88-14.2,11.77a16,16,0,0,1-4.69-3.49c-9.32-8.77-18.67-17.5-27.79-26.48-2.39-2.35-4-5.5-6-8.28Z">
-        </path>
-        <path class="ear-stroke"
-          d="M963.38,510.44c-9.26-1.08-18.51-2.25-27.79-3.18-3.53-.35-4.94-1.56-5.19-5.45-3.94-61.16-7.59-122.34-12.31-183.44-4.28-55.28-9.75-110.47-18.92-165.19-3.29-19.64-8.2-39-12.79-58.44-3.15-13.28-11.44-24-19.81-34.23-9.72-11.91-21.71-12.61-32.2-1.4-22.06,23.58-44.17,47.21-64.81,72-52.17,62.71-99.29,129-138.59,200.67-20.6,37.56-38.59,76.29-50.77,117.5a20.69,20.69,0,0,1-1.09,2.29c-1-1.46-1.69-2.63-2.49-3.75-4.83-6.77-9.07-14.1-14.73-20.09-4.47-4.74-4.82-8.19-2.26-14.07,43-98.64,93-193.41,154.55-281.88,21.51-30.93,44.47-60.7,70.87-87.74C799,29.79,815.62,19.5,832.67,9.77c5.1-2.91,11.12-4.22,16.72-6.27h11a5.07,5.07,0,0,0,1.19.82c18.32,6,30.55,19.88,38.18,35.93,8.71,18.31,14.21,38.34,19.52,58,18.55,68.86,28.15,139.29,33.85,210.19,4.36,54.26,6.45,108.71,9.58,163.07.09,1.64.44,3.26.67,4.89Z">
-        </path>
-        <path class="ear-stroke"
-          d="M834.4,514.44c-6.73-2.22-13.41-4.64-20.22-6.55-3-.84-3.83-2.17-3.88-5.17q-1.38-94.68-3-189.36a12.94,12.94,0,0,0-1.19-6.27l-94,155.2-1.07-.57L825.49,215l1.24.2q4.83,149.63,9.67,299.26Z">
-        </path>
-        <path class="ear-stroke"
-          d="M138.1,456.81c14.65-2.24,28.15-4,41.51-6.47,10.93-2,21.7-5,32.5-7.66a35.37,35.37,0,0,0,6.95-2.74c7.18-3.5,7.5-5.05,2.84-11.25-41.56-55.27-65.79-117.47-74.18-186a56.06,56.06,0,0,1,0-5.66L287.45,425.61l-71.68,54.06,36.49,32.5-.45.74Z">
-        </path>
-      </g>
-    </svg>
-  </div>
 
   <script src="./assets/main.js" async></script>
 </body>
