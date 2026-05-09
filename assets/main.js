@@ -157,7 +157,7 @@
   let _homeSection, _ears, _earWash;
 
   function updateEars() {
-    _homeSection ??= document.getElementById('section-home');
+    _homeSection ??= document.getElementById('home');
     _ears ??= document.querySelector('.ears');
     _earWash ??= document.querySelector('.ear-wash');
     if (!_homeSection || !_ears || !_earWash) return;
@@ -193,7 +193,7 @@
     const navObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        const name = entry.target.id.replace('section-', '');
+        const name = entry.target.id;
         navItems.forEach(i => {
           const active = i.dataset.section === name;
           i.classList.toggle('selected', active);
@@ -206,13 +206,13 @@
       });
     }, { rootMargin: '-45% 0px -45% 0px' });
 
-    document.querySelectorAll('.page-section, #section-home')
+    document.querySelectorAll('.page-section, #home')
       .forEach(s => navObserver.observe(s));
 
     // ── Trigger form overlay when contato scrolls into view ────────────────
     new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) showFormOverlay();
     }, { threshold: 0.1 })
-      .observe(document.getElementById('section-contato'));
+      .observe(document.getElementById('contato'));
   });
 })();

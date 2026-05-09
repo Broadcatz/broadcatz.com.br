@@ -162,7 +162,7 @@ body {
 }
 
 .page-section,
-#section-home {
+#home {
   scroll-margin-top: 58px;
 }
 
@@ -297,7 +297,7 @@ body {
 }
 
 /* home hero — full viewport height */
-#section-home {
+#home {
   position: relative;
   height: 100dvh;
   min-height: 480px;
@@ -477,7 +477,7 @@ body {
 }
 
 /* ── SOBRE NÓS ─────────────────────────────────── */
-#section-sobre .section-heading::before {
+#sobre .section-heading::before {
   background: var(--pink);
 }
 
