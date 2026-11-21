@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Square";
-  src: url("./squarefont/Square.ttf") format("truetype");
+  src: url("../fontes/square.ttf") format("truetype");
   font-weight: normal;
   font-display: swap;
 }
