@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Square";
-  src: url("./squarefont/Square.ttf") format("truetype");
+  src: url("../fontes/square.ttf") format("truetype");
   font-weight: normal;
   font-display: swap;
 }
@@ -61,30 +61,6 @@ body {
   mix-blend-mode: screen;
 }
 
-/* social icons */
-.socials {
-  position: absolute;
-  top: 28px;
-  right: 120px;
-  display: flex;
-  gap: 14px;
-  z-index: 6;
-}
-
-.socials a {
-  width: 46px;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: transform .2s ease;
-}
-
-.socials a:hover {
-  transform: translateY(-2px);
-}
-
 /* top-left navigation bar */
 .nav-menu {
   position: fixed;
@@ -93,25 +69,9 @@ body {
   z-index: 10;
   display: flex;
   align-items: stretch;
-  height: 38px;
+  height: 46px;
   background: rgba(5, 6, 8, 0.82);
   border: 1px solid rgba(170, 180, 200, 0.10);
-}
-
-.nav-toggle {
-  display: flex;
-  align-items: center;
-  padding: 0 12px;
-  background: none;
-  border: none;
-  border-right: 1px solid rgba(170, 180, 200, 0.10);
-  cursor: pointer;
-}
-
-.nav-toggle img {
-  width: 18px;
-  height: auto;
-  display: block;
 }
 
 .nav-item {
@@ -131,14 +91,18 @@ body {
   border-right: none;
 }
 
-.nav-item img {
+.nav-icon {
   width: 20px;
-  height: auto;
+  height: 20px;
+  flex-shrink: 0;
   display: block;
 }
 
-.nav-item:not(.selected) .nav-icon--black {
-  display: none;
+/* official symbol (B com raio) drawn in currentColor through a mask */
+.nav-icon--bz {
+  background: currentColor;
+  -webkit-mask: url("../favicon.svg") center / 128% no-repeat;
+  mask: url("../favicon.svg") center / 128% no-repeat;
 }
 
 .nav-item.selected {
@@ -146,19 +110,17 @@ body {
   color: #000;
 }
 
-.nav-item.selected .nav-icon--black {
-  display: block;
-}
-
-.nav-item.selected .nav-icon--white {
-  display: none;
-}
-
 .page-section {
   position: relative;
   z-index: 3;
   background: var(--bg);
   min-height: 100dvh;
+  /* each section slides over the previous one: a soft shadow cast upward
+     plus a faint top edge sell the depth of the (intentional) section break */
+  box-shadow:
+    0 -1px 0 rgba(170, 180, 200, 0.10),
+    0 -18px 36px -6px rgba(0, 0, 0, 0.75),
+    0 -60px 90px -20px rgba(0, 0, 0, 0.55);
 }
 
 .page-section,
@@ -190,43 +152,6 @@ body {
   width: 12px;
   height: 1.2em;
   background: var(--cyan);
-}
-
-/* cases tabs */
-.cases-tabs {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  background: #111214;
-  border: 1px solid rgba(170, 180, 200, 0.12);
-  height: 42px;
-  padding: 0 20px;
-  margin-bottom: 32px;
-}
-
-.cases-tab {
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.45);
-  font-family: var(--body-font);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  cursor: pointer;
-  padding: 0 14px;
-  height: 100%;
-  white-space: nowrap;
-  transition: color 0.15s;
-}
-
-.cases-tab.selected {
-  color: #fff;
-}
-
-.tab-sep {
-  color: rgba(170, 180, 200, 0.35);
-  font-size: 12px;
-  user-select: none;
 }
 
 /* cases grid */
@@ -280,17 +205,17 @@ body {
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
 }
 
-.case-item:hover .case-thumb img {
+.case-item:is(:hover, :focus-visible) .case-thumb img {
   filter: grayscale(0%);
 }
 
-.case-item:hover .yt-overlay {
+.case-item:is(:hover, :focus-visible) .yt-overlay {
   opacity: 1;
 }
 
 .case-name {
   font-family: var(--body-font);
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
   line-height: 1.4;
@@ -423,22 +348,34 @@ body {
 }
 
 @media (max-width: 720px) {
-  .nav-item span {
-    display: none;
+  /* full-width bar: icon over a short label, 56px tall touch targets */
+  .nav-menu {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 56px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-width: 0 0 1px;
+    background: rgba(5, 6, 8, 0.92);
   }
 
   .nav-item {
-    padding: 0 13px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 0 4px;
+    font-size: 10.5px;
+    letter-spacing: 0.08em;
   }
 
-  .socials {
-    right: 90px;
-    gap: 10px;
+  .nav-label-long {
+    display: none;
   }
 
-  .socials a {
-    width: 38px;
-    height: 38px;
+  /* bar touches the viewport edges: keep the ring inside the item */
+  .nav-item:focus-visible {
+    outline-offset: -5px;
   }
 
   .center {
@@ -508,7 +445,7 @@ body {
   transition: border-color 0.3s ease;
 }
 
-.team-card:hover {
+.team-card:is(:hover, :has(:focus-visible)) {
   border-color: rgba(45, 212, 255, 0.22);
 }
 
@@ -527,7 +464,7 @@ body {
   transition: filter 0.4s ease;
 }
 
-.team-card:hover .team-card-photo img {
+.team-card:is(:hover, :has(:focus-visible)) .team-card-photo img {
   filter: grayscale(0%);
 }
 
@@ -555,9 +492,9 @@ body {
 }
 
 .team-card-bio {
-  font-size: 0.715rem;
-  line-height: 1.68;
-  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
   flex: 1;
 }
 
@@ -580,16 +517,17 @@ body {
   transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
-.team-card-social:hover {
+.team-card-social:is(:hover, :focus-visible) {
   background: rgba(45, 212, 255, 0.08);
   border-color: rgba(45, 212, 255, 0.48);
   transform: translateY(-2px);
 }
 
-@media (max-width: 960px) {
+/* 3 columns only when bios at 14px still fit; 3 cards in 2 columns would orphan one */
+@media (max-width: 1279px) {
   .team-grid {
     grid-template-columns: 1fr;
-    max-width: 560px;
+    max-width: 720px;
   }
 
   .team-card-photo {
@@ -651,4 +589,46 @@ body {
   50% {
     opacity: 0.85;
   }
+}
+/* ── FOCO DO TECLADO ─────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* cyan background: draw the ring in black, inside the item */
+.nav-item.selected:focus-visible {
+  outline-color: #000;
+  outline-offset: -5px;
+}
+
+/* main receives focus from the skip link; no ring around the whole page */
+/* Shift+Tab focus scrolling must not park links under the fixed nav */
+.case-item,
+.team-card-social {
+  scroll-margin-top: 80px;
+}
+
+#conteudo:focus {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 20;
+  padding: 12px 16px;
+  background: var(--cyan);
+  color: #000;
+  font-family: var(--body-font);
+  font-size: 14px;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+  outline-color: #000;
+  outline-offset: -5px;
 }
