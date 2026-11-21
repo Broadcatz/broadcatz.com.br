@@ -280,17 +280,17 @@ body {
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
 }
 
-.case-item:hover .case-thumb img {
+.case-item:is(:hover, :focus-visible) .case-thumb img {
   filter: grayscale(0%);
 }
 
-.case-item:hover .yt-overlay {
+.case-item:is(:hover, :focus-visible) .yt-overlay {
   opacity: 1;
 }
 
 .case-name {
   font-family: var(--body-font);
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
   text-align: center;
   line-height: 1.4;
@@ -508,7 +508,7 @@ body {
   transition: border-color 0.3s ease;
 }
 
-.team-card:hover {
+.team-card:is(:hover, :focus-within) {
   border-color: rgba(45, 212, 255, 0.22);
 }
 
@@ -527,7 +527,7 @@ body {
   transition: filter 0.4s ease;
 }
 
-.team-card:hover .team-card-photo img {
+.team-card:is(:hover, :focus-within) .team-card-photo img {
   filter: grayscale(0%);
 }
 
@@ -555,9 +555,9 @@ body {
 }
 
 .team-card-bio {
-  font-size: 0.715rem;
-  line-height: 1.68;
-  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.72);
   flex: 1;
 }
 
@@ -580,16 +580,17 @@ body {
   transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
-.team-card-social:hover {
+.team-card-social:is(:hover, :focus-visible) {
   background: rgba(45, 212, 255, 0.08);
   border-color: rgba(45, 212, 255, 0.48);
   transform: translateY(-2px);
 }
 
-@media (max-width: 960px) {
+/* 3 columns only when bios at 14px still fit; 3 cards in 2 columns would orphan one */
+@media (max-width: 1279px) {
   .team-grid {
     grid-template-columns: 1fr;
-    max-width: 560px;
+    max-width: 720px;
   }
 
   .team-card-photo {
@@ -651,4 +652,40 @@ body {
   50% {
     opacity: 0.85;
   }
+}
+/* ── FOCO DO TECLADO ─────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+/* cyan background: draw the ring in black, inside the item */
+.nav-item.selected:focus-visible {
+  outline-color: #000;
+  outline-offset: -5px;
+}
+
+/* main receives focus from the skip link; no ring around the whole page */
+#conteudo:focus {
+  outline: none;
+}
+
+.skip-link {
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 20;
+  padding: 12px 16px;
+  background: var(--cyan);
+  color: #000;
+  font-family: var(--body-font);
+  font-size: 14px;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus-visible {
+  transform: none;
+  outline-color: #000;
+  outline-offset: -5px;
 }

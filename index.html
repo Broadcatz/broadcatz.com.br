@@ -52,6 +52,7 @@
 </head>
 
 <body>
+  <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
   <noscript>
     <div
       style="background:var(--cyan);color:#000;padding:10px 24px;text-align:center;font-family:Arial,sans-serif;font-size:0.9rem">
@@ -84,6 +85,7 @@
     </a>
   </nav>
 
+  <main id="conteudo" tabindex="-1">
   <section id="home">
     <div class="center">
       <img class="logo-img" src="./assets/main-logo.svg" alt="BROADCATZ — Soluções Audiovisuais" fetchpriority=high>
@@ -223,7 +225,7 @@
               <h3 class="team-card-name">Annie Migliorini</h3>
               <div class="team-card-socials">
                 <a href="https://linktr.ee/anniemigliorini" class="team-card-social"
-                  aria-label="Link de Annie Migliorini" target="_blank" rel="noopener">
+                  aria-label="Links de Annie Migliorini (Linktree, abre em nova aba)" target="_blank" rel="noopener">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10" />
@@ -252,13 +254,12 @@
               <h3 class="team-card-name">Nelci Gomes</h3>
               <div class="team-card-socials">
                 <a href="https://www.instagram.com/nelcijrphotovideo/" class="team-card-social"
-                  aria-label="Link de Nelci Gomes" target="_blank" rel="noopener">
+                  aria-label="Instagram de Nelci Gomes (abre em nova aba)" target="_blank" rel="noopener">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <path
-                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    <rect x="2.5" y="2.5" width="19" height="19" rx="5" />
+                    <circle cx="12" cy="12" r="4.5" />
+                    <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
                   </svg>
                 </a>
               </div>
@@ -279,13 +280,13 @@
               <h3 class="team-card-name">Agatha Trindade</h3>
               <div class="team-card-socials">
                 <a href="https://www.linkedin.com/in/agatha-trindade/" class="team-card-social"
-                  aria-label="Link de Agatha Trindade" target="_blank" rel="noopener">
+                  aria-label="LinkedIn de Agatha Trindade (abre em nova aba)" target="_blank" rel="noopener">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="2" y1="12" x2="22" y2="12" />
-                    <path
-                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    <rect x="2.5" y="2.5" width="19" height="19" rx="2" />
+                    <line x1="7.5" y1="10.5" x2="7.5" y2="17" />
+                    <circle cx="7.5" cy="7" r="0.6" fill="currentColor" />
+                    <path d="M11.5 17v-6.5M11.5 13.2c0-1.6 1.2-2.7 2.7-2.7s2.3 1 2.3 2.7V17" />
                   </svg>
                 </a>
               </div>
@@ -306,6 +307,7 @@
       <div class="contato-form" id="contato-form-container"></div>
     </div>
   </section>
+  </main>
 
   <script src="./assets/main.js" async></script>
 </body>
