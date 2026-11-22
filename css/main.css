@@ -225,6 +225,11 @@ body {
   width: min(980px, 74vw);
 }
 
+/* the logo is the page title */
+.hero-title {
+  margin: 0;
+}
+
 .logo-img {
   width: 100%;
   height: auto;
