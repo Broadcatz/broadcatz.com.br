@@ -17,9 +17,7 @@
   <noscript>
     <style>
       .nav-menu,
-      #cursor-glow,
-      .ears,
-      .ear-wash {
+      .ears {
         display: none !important;
       }
     </style>
@@ -59,9 +57,6 @@
       Para a melhor experiência, ative o JavaScript no seu navegador.
     </div>
   </noscript>
-  <div class="grid" aria-hidden="true"></div>
-  <canvas id="cursor-glow" aria-hidden="true" width="1028" height="1084"
-    style="width: 1028px; height: 1084px;"></canvas>
   <nav class="nav-menu" aria-label="Navegação principal">
     <a href="#home" class="nav-item selected" data-section="home" aria-current="page">
       <span class="nav-icon nav-icon--bz" aria-hidden="true"></span>
@@ -93,10 +88,25 @@
 
   <main id="conteudo" tabindex="-1">
   <section id="home">
+    <div class="vhs" aria-hidden="true"><span class="vhs-lines"></span><span class="vhs-grain"></span></div>
     <div class="center">
-      <img class="logo-img" src="./imagens/marca/broadcatz-assinatura-negativo.svg" alt="BROADCATZ — Soluções Audiovisuais" fetchpriority=high>
+      <h1 class="hero-title"><img class="logo-img" src="./imagens/marca/broadcatz-logotipo-negativo.svg" alt="BROADCATZ" fetchpriority=high></h1>
+      <p class="hero-bio">Produtora audiovisual independente. Produção e transmissão ao vivo para eventos corporativos, esportivos e de entretenimento.</p>
+      <div class="hero-ctas">
+        <a class="cta cta--primary" href="#portfolio">CONHEÇA NOSSO TRABALHO
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <path d="M4 12h15M13 6l6 6-6 6" />
+          </svg>
+        </a>
+        <a class="cta cta--ghost" href="#contato">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <rect x="3" y="5" width="18" height="14" rx="1" />
+            <path d="M3 7l9 6 9-6" />
+          </svg>
+          FALE COM A GENTE
+        </a>
+      </div>
     </div>
-    <div class="ear-wash" aria-hidden="true"></div>
     <div class="ears" aria-hidden="true">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 966.88 517.94">
         <defs>
@@ -115,13 +125,7 @@
             </path>
           </symbol>
         </defs>
-        <g class="ear-glow-group">
-          <use href="#bc-ears-paths" class="ear-glow-bloom" />
-          <use href="#bc-ears-paths" class="ear-glow-wide" />
-          <use href="#bc-ears-paths" class="ear-glow-mid" />
-          <use href="#bc-ears-paths" class="ear-glow-tight" />
-        </g>
-        <use href="#bc-ears-paths" class="ear-stroke" />
+        <use href="#bc-ears-paths" class="ear-fill" />
       </svg>
     </div>
   </section>

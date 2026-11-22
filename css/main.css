@@ -7,7 +7,6 @@
 
 :root {
   --bg: #050608;
-  --grid-line: rgba(170, 180, 200, 0.035);
   --pink: #ff5a8a;
   --pink-deep: #ff2f6e;
   --cyan: #2dd4ff;
@@ -38,27 +37,6 @@ body {
   background: var(--bg);
   color: #fff;
   font-family: "Helvetica Neue", Arial, sans-serif;
-}
-
-.grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  background-position: -1px -1px;
-}
-
-/* canvas overlay that brightens grid lines around the cursor */
-#cursor-glow {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: screen;
 }
 
 /* top-left navigation bar */
@@ -222,24 +200,34 @@ body {
 }
 
 /* home hero — full viewport height */
+/* the hero is at least one screen tall and grows when its content needs more
+   (zoom, larger text spacing), so nothing is ever cut off. Equal top and bottom
+   padding keeps the centre where it was and keeps content clear of the menu. */
 #home {
   position: relative;
-  height: 100dvh;
-  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: max(480px, 100dvh);
+  padding-block: 80px;
   overflow: hidden;
 }
 
-/* center logo */
+/* center logo, nudged a little above the middle */
 .center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -55%);
+  position: relative;
+  transform: translateY(-5%);
   z-index: 5;
   text-align: center;
   pointer-events: none;
   user-select: none;
-  width: min(1100px, 78vw);
+  width: min(980px, 74vw);
+}
+
+/* the logo is the page title */
+.hero-title {
+  margin: 0;
 }
 
 .logo-img {
@@ -248,11 +236,137 @@ body {
   display: block;
 }
 
+.hero-bio {
+  max-width: 46ch;
+  margin: clamp(18px, 3.5vh, 32px) auto 0;
+  font-family: var(--body-font);
+  font-size: clamp(16px, 1.45vw, 20px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+  user-select: text;
+}
+
+/* short laptop screens: smaller logo so the buttons clear the ears */
+@media (min-width: 721px) and (max-height: 760px) {
+  .center {
+    width: min(820px, 62vw);
+    transform: translateY(-10%);
+  }
+
+  .hero-bio {
+    font-size: 16px;
+  }
+
+  .hero-ctas {
+    margin-top: 24px;
+  }
+}
+
+/* hero buttons: one big cut corner (bottom right), solid colours;
+   equal columns, so both take the width of the wider one */
+.hero-ctas {
+  pointer-events: auto;
+  user-select: auto;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: max-content;
+  /* centred on its own, so on narrow tablets the row can be wider than the logo block */
+  position: relative;
+  left: 50%;
+  translate: -50% 0;
+  gap: 16px;
+  margin-top: clamp(28px, 6vh, 56px);
+}
+
+.cta {
+  --cut: 18px;
+  --edge: rgba(170, 180, 200, 0.45);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 30px 0 28px;
+  font-family: var(--header-font);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.cta svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.cta--primary {
+  gap: 16px;
+  background: var(--cyan);
+  color: #000;
+}
+
+/* the arrow sits after a thin divider */
+.cta--primary svg {
+  box-sizing: content-box;
+  padding-left: 16px;
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.cta--primary:is(:hover, :focus-visible) {
+  background: #fff;
+}
+
+/* ghost: 1px edge that follows the cut; the cut corner is lit cyan */
+.cta--ghost {
+  isolation: isolate;
+  color: #fff;
+  background: linear-gradient(315deg, var(--cyan) 0 20px, var(--edge) 20px);
+}
+
+.cta--ghost::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: #080a0e;
+  clip-path: inherit;
+}
+
+.cta--ghost:is(:hover, :focus-visible) {
+  background: var(--cyan);
+  color: var(--cyan);
+}
+
+/* clip-path cuts the outline off: draw the focus ring inside */
+.cta:focus-visible {
+  outline: none;
+}
+
+.cta--primary:focus-visible {
+  box-shadow: inset 0 0 0 2px #000;
+}
+
+.cta--ghost:focus-visible::before {
+  box-shadow: inset 0 0 0 2px var(--cyan);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+}
+
 .ears {
   position: absolute;
-  left: -3vw;
-  bottom: -5vh;
-  height: 33vh;
+  left: -1.5vw;
+  bottom: -3vh;
+  height: 24vh;
   z-index: 4;
   pointer-events: none;
   transform-origin: bottom left;
@@ -265,86 +379,125 @@ body {
   overflow: visible;
 }
 
-.ears svg .ear-stroke,
-.ears svg .ear-glow-tight,
-.ears svg .ear-glow-mid,
-.ears svg .ear-glow-wide,
-.ears svg .ear-glow-bloom {
-  fill: none;
-  stroke-linejoin: round;
+/* the ears drawn as the logo draws them, solid pink, with a subtle neon edge and halo */
+.ears svg {
+  filter:
+    drop-shadow(0 0 1px rgba(255, 170, 200, 0.9))
+    drop-shadow(0 0 8px rgba(255, 90, 138, 0.45))
+    drop-shadow(0 0 26px rgba(255, 90, 138, 0.2));
 }
 
-.ears svg .ear-stroke {
-  stroke: var(--pink, #ff5a8a);
-  stroke-width: 5;
+.ears svg .ear-fill {
+  fill: var(--pink);
 }
 
-.ears svg .ear-glow-tight {
-  stroke: var(--pink, #ff5a8a);
-  stroke-width: 5;
-  opacity: .50;
-  filter: blur(2px);
+/* ── Hero background: VHS screen ─────────────────────────────────────────
+   .vhs::before  the lit screen: cyan centre, a little magenta low right, dark edges
+   .vhs-lines    thick colour-fringed scanlines multiplied over it, crawling down 4px/s
+   .vhs-grain    fine grain that flickers in place (small vertical steps, never sideways)
+   Animations pause while the hero is off screen (#home.is-offscreen, set in main.js)
+   and stop with reduced motion. */
+.vhs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+  animation: vhsFlicker 5s steps(1) infinite;
 }
 
-.ears svg .ear-glow-mid {
-  stroke: var(--pink, #ff5a8a);
-  stroke-width: 7;
-  opacity: .28;
-  filter: blur(6px);
-}
-
-.ears svg .ear-glow-wide {
-  stroke: #ff7aa3;
-  stroke-width: 10;
-  opacity: .15;
-  filter: blur(12px);
-}
-
-.ears svg .ear-glow-bloom {
-  stroke: #ff5a8a;
-  stroke-width: 14;
-  opacity: .09;
-  filter: blur(20px);
-}
-
-@keyframes earsFlicker {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  45% {
-    opacity: .92;
-  }
-
-  55% {
-    opacity: .98;
-  }
-
-  70% {
-    opacity: .88;
-  }
-}
-
-.ears svg .ear-glow-group {
-  animation: earsFlicker 60s ease-in-out infinite;
-}
-
-.ear-wash {
+.vhs::before {
+  content: '';
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(60vw 70vh at 18vw 95vh,
-      rgba(255, 90, 138, 0.35) 0%,
-      rgba(255, 90, 138, 0.24) 18%,
-      rgba(255, 90, 138, 0.14) 35%,
-      rgba(255, 90, 138, 0.06) 55%,
-      rgba(255, 90, 138, 0.02) 75%,
-      transparent 100%);
-  z-index: 1;
-  pointer-events: none;
+    radial-gradient(55% 45% at 78% 82%, rgba(70, 25, 70, 0.55), transparent 70%),
+    radial-gradient(70% 62% at 46% 44%, rgb(30, 46, 60) 0%, rgb(16, 24, 33) 45%, var(--bg) 85%),
+    var(--bg);
+}
+
+.vhs-lines,
+.vhs-grain {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.vhs-lines {
+  top: -8px;
+  bottom: 0;
+  mix-blend-mode: multiply;
+  background: repeating-linear-gradient(to bottom,
+      rgb(225, 230, 255) 0 1px,
+      rgb(205, 248, 255) 1px 3px,
+      rgb(175, 255, 215) 3px 4px,
+      rgb(80, 45, 100) 4px 5px,
+      rgb(38, 30, 52) 5px 8px);
+  animation: vhsCrawl 2s linear infinite;
+}
+
+.vhs-grain {
+  inset: -100px;
+  opacity: 0.06;
   mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: vhsGrain 1.2s steps(1) infinite;
+}
+
+@keyframes vhsCrawl {
+  to { transform: translateY(8px); }
+}
+
+@keyframes vhsFlicker {
+  0% { opacity: 1; }
+  23% { opacity: .96; }
+  25% { opacity: 1; }
+  58% { opacity: .98; }
+  61% { opacity: 1; }
+  83% { opacity: .95; }
+  84% { opacity: 1; }
+}
+
+@keyframes vhsGrain {
+  0% { transform: translateY(0); }
+  12.5% { transform: translateY(37px); }
+  25% { transform: translateY(-23px); }
+  37.5% { transform: translateY(61px); }
+  50% { transform: translateY(-49px); }
+  62.5% { transform: translateY(13px); }
+  75% { transform: translateY(-71px); }
+  87.5% { transform: translateY(29px); }
+}
+
+#home.is-offscreen .vhs,
+#home.is-offscreen .vhs > span {
+  animation-play-state: paused;
+}
+
+/* Windows high contrast: backgrounds and shadows are dropped, so give the
+   buttons a real border and a focus outline (no cut corner, it would clip them) */
+@media (forced-colors: active) {
+  .cta,
+  .cta--ghost::before {
+    clip-path: none;
+  }
+
+  .cta {
+    border: 1px solid ButtonText;
+  }
+
+  .cta:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vhs,
+  .vhs > span {
+    animation: none;
+  }
 }
 
 @media (max-width: 720px) {
@@ -378,26 +531,37 @@ body {
     outline-offset: -5px;
   }
 
+  #home {
+    padding-block: 140px;
+  }
+
   .center {
     width: 86vw;
+    transform: translateY(-20%);
   }
 
+  /* centred on the screen; labels wrap only when even that is too narrow (zoom) */
+  .hero-ctas {
+    grid-auto-flow: row;
+    width: min(calc(100vw - 24px), 340px);
+    gap: 12px;
+  }
+
+  .cta {
+    min-width: 0;
+    padding-block: 8px;
+    line-height: 1.2;
+    white-space: normal;
+  }
+
+  /* centred on phones; shrinks on scroll around its own centre */
   .ears {
-    width: 40vh;
+    width: 30vh;
     height: auto;
     left: 50%;
+    bottom: -2vh;
     transform: translateX(-50%);
-  }
-
-  .ear-wash {
-    background:
-      radial-gradient(60vw 40vh at 50vw 95vh,
-        rgba(255, 90, 138, 0.35) 0%,
-        rgba(255, 90, 138, 0.24) 18%,
-        rgba(255, 90, 138, 0.14) 35%,
-        rgba(255, 90, 138, 0.06) 55%,
-        rgba(255, 90, 138, 0.02) 75%,
-        transparent 100%);
+    transform-origin: bottom center;
   }
 
   .section-inner {
