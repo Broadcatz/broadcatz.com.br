@@ -99,14 +99,15 @@
   // ── Contact form ────────────────────────────────────────────────────────────
   const CONTATO_URL = 'https://contato.broadcatz-web.workers.dev/api/contato';
   const CONTATO_MSG = {
-    400: ['Dados inválidos', 'Alguns campos não foram aceitos. Confira nome, e-mail e mensagem e tente de novo.'],
+    400: ['Dados inválidos', 'Alguns campos não foram aceitos. Confira os campos e tente de novo.'],
     403: ['Verificação não confirmada', 'Não conseguimos confirmar a verificação anti-robô. Tente de novo.'],
     413: ['Mensagem grande demais', 'O texto passou do tamanho aceito (5.000 caracteres). Reduza a mensagem e envie de novo.'],
     429: ['Muitas tentativas', 'Recebemos muitas tentativas em pouco tempo. Aguarde um minuto e tente de novo.'],
     502: ['Não foi possível enviar', 'Não conseguimos entregar sua mensagem agora. Tente de novo em instantes ou use os links da equipe nesta página.']
   };
   const CONTATO_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-  const CONTATO_LABEL = { nome: 'nome', email: 'e-mail', mensagem: 'mensagem' };
+  const CONTATO_LABEL = { nome: 'nome', email: 'e-mail', telefone: 'telefone', mensagem: 'mensagem' };
+  const CONTATO_TEL_RE = /^\+?[\d\s().-]{8,30}$/;
 
   function initContato() {
     const form = document.getElementById('contato-form');
@@ -114,6 +115,7 @@
     const fields = {
       nome: form.elements.nome,
       email: form.elements.email,
+      telefone: form.elements.telefone,
       mensagem: form.elements.mensagem
     };
     const website = form.elements.website;
@@ -147,6 +149,8 @@
       const email = fields.email.value.trim();
       if (!email) errs.email = 'Informe seu e-mail.';
       else if (!CONTATO_EMAIL_RE.test(email)) errs.email = 'Esse e-mail parece incompleto. Exemplo: nome@empresa.com.br';
+      const tel = fields.telefone.value.trim();
+      if (tel && !CONTATO_TEL_RE.test(tel)) errs.telefone = 'Confira o telefone: use só números, com DDD. Exemplo: +55 11 91234-5678';
       if (!fields.mensagem.value.trim()) errs.mensagem = 'Escreva sua mensagem.';
       return errs;
     }
@@ -215,6 +219,7 @@
     function showSuccess(values) {
       setSending(false);
       success.querySelectorAll('[data-echo]').forEach(e => { e.textContent = values[e.dataset.echo]; });
+      success.querySelectorAll('[data-echo-row]').forEach(r => { r.hidden = !values[r.dataset.echoRow]; });
       form.hidden = true;
       success.hidden = false;
       status.textContent = '';
@@ -226,7 +231,7 @@
       Object.keys(fields).forEach(count);
       Object.keys(touched).forEach(k => delete touched[k]);
       submitted = false;
-      ['nome', 'email', 'mensagem', 'ts'].forEach(k => setErr(k, ''));
+      ['nome', 'email', 'telefone', 'mensagem', 'ts'].forEach(k => setErr(k, ''));
       alertBox.textContent = '';
       status.textContent = '';
       resetTs();
@@ -243,7 +248,7 @@
       const errs = validate();
       const keys = Object.keys(errs);
       submitted = true;
-      ['nome', 'email', 'mensagem'].forEach(k => setErr(k, errs[k]));
+      ['nome', 'email', 'telefone', 'mensagem'].forEach(k => setErr(k, errs[k]));
       if (keys.length) {
         status.textContent = keys.length + (keys.length === 1 ? ' campo precisa' : ' campos precisam') +
           ' de ajuste: ' + keys.map(k => CONTATO_LABEL[k]).join(', ') + '.';
@@ -260,6 +265,7 @@
       const payload = {
         nome: fields.nome.value.trim(),
         email: fields.email.value.trim(),
+        telefone: fields.telefone.value.trim(),
         mensagem: fields.mensagem.value.trim(),
         website: website.value,
         turnstileToken: t

@@ -328,6 +328,12 @@
               <p class="cf-err" id="cf-email-e" data-err="email"></p>
             </div>
             <div class="cf-field">
+              <label for="cf-telefone"><span>Telefone (opcional)</span></label>
+              <input class="cf-ctl" id="cf-telefone" name="telefone" type="tel" maxlength="30" autocomplete="tel"
+                inputmode="tel" aria-describedby="cf-telefone-e" placeholder="+55 11 91234-5678">
+              <p class="cf-err" id="cf-telefone-e" data-err="telefone"></p>
+            </div>
+            <div class="cf-field">
               <label for="cf-mensagem"><span>Mensagem</span><span class="cf-cnt" data-cnt="mensagem" aria-hidden="true">0/5000</span></label>
               <textarea class="cf-ctl" id="cf-mensagem" name="mensagem" maxlength="5000" required
                 aria-describedby="cf-mensagem-e"
@@ -352,6 +358,7 @@
           <dl>
             <div><dt>Nome</dt><dd data-echo="nome"></dd></div>
             <div><dt>E-mail</dt><dd data-echo="email"></dd></div>
+            <div data-echo-row="telefone"><dt>Telefone</dt><dd data-echo="telefone"></dd></div>
             <div><dt>Mensagem</dt><dd data-echo="mensagem"></dd></div>
             <div><dt>Status</dt><dd class="cf-st">Entregue à equipe</dd></div>
           </dl>

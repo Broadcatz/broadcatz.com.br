@@ -818,6 +818,10 @@ textarea.cf-ctl {
   border-bottom: 1px solid var(--cf-line);
 }
 
+.cf-done dl>div[hidden] {
+  display: none;
+}
+
 .cf-done dt {
   font: 400 0.75rem/1.6 var(--header-font);
   letter-spacing: 0.1em;
