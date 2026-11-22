@@ -200,19 +200,24 @@ body {
 }
 
 /* home hero — full viewport height */
+/* the hero is at least one screen tall and grows when its content needs more
+   (zoom, larger text spacing), so nothing is ever cut off. Equal top and bottom
+   padding keeps the centre where it was and keeps content clear of the menu. */
 #home {
   position: relative;
-  height: 100dvh;
-  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: max(480px, 100dvh);
+  padding-block: 80px;
   overflow: hidden;
 }
 
-/* center logo */
+/* center logo, nudged a little above the middle */
 .center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -55%);
+  position: relative;
+  transform: translateY(-5%);
   z-index: 5;
   text-align: center;
   pointer-events: none;
@@ -240,7 +245,7 @@ body {
 @media (min-width: 721px) and (max-height: 760px) {
   .center {
     width: min(820px, 62vw);
-    transform: translate(-50%, -60%);
+    transform: translateY(-10%);
   }
 
   .hero-bio {
@@ -465,6 +470,24 @@ body {
   animation-play-state: paused;
 }
 
+/* Windows high contrast: backgrounds and shadows are dropped, so give the
+   buttons a real border and a focus outline (no cut corner, it would clip them) */
+@media (forced-colors: active) {
+  .cta,
+  .cta--ghost::before {
+    clip-path: none;
+  }
+
+  .cta {
+    border: 1px solid ButtonText;
+  }
+
+  .cta:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 2px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .vhs,
   .vhs > span {
@@ -503,18 +526,27 @@ body {
     outline-offset: -5px;
   }
 
-  .center {
-    width: 86vw;
-    transform: translate(-50%, -70%);
+  #home {
+    padding-block: 140px;
   }
 
+  .center {
+    width: 86vw;
+    transform: translateY(-20%);
+  }
+
+  /* centred on the screen; labels wrap only when even that is too narrow (zoom) */
   .hero-ctas {
     grid-auto-flow: row;
-    width: min(100%, 340px);
-    left: auto;
-    translate: none;
-    margin-inline: auto;
+    width: min(calc(100vw - 24px), 340px);
     gap: 12px;
+  }
+
+  .cta {
+    min-width: 0;
+    padding-block: 8px;
+    line-height: 1.2;
+    white-space: normal;
   }
 
   /* centred on phones; shrinks on scroll around its own centre */
