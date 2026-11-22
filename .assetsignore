@@ -1,0 +1,14 @@
+# Arquivos do repositório que não fazem parte do site
+.git
+.github
+.agents
+.wrangler
+node_modules
+wrangler.jsonc
+.assetsignore
+README*
+CNAME
+serve.py
+PROGRESS.md
+*.patch
+_arquivo
