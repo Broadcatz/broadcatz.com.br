@@ -101,7 +101,7 @@
   const CONTATO_MSG = {
     400: ['Dados inválidos', 'Alguns campos não foram aceitos. Confira os campos e tente de novo.'],
     403: ['Verificação não confirmada', 'Não conseguimos confirmar a verificação anti-robô. Tente de novo.'],
-    413: ['Mensagem grande demais', 'O texto passou do tamanho aceito (5.000 caracteres). Reduza a mensagem e envie de novo.'],
+    413: ['Mensagem grande demais', 'O texto passou do tamanho aceito (3.000 caracteres). Reduza a mensagem e envie de novo.'],
     429: ['Muitas tentativas', 'Recebemos muitas tentativas em pouco tempo. Aguarde um minuto e tente de novo.'],
     502: ['Não foi possível enviar', 'Não conseguimos entregar sua mensagem agora. Tente de novo em instantes ou use os links da equipe nesta página.']
   };
