@@ -239,13 +239,39 @@ body {
   text-align: center;
   pointer-events: none;
   user-select: none;
-  width: min(1100px, 78vw);
+  width: min(980px, 74vw);
 }
 
 .logo-img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+.hero-bio {
+  max-width: 46ch;
+  margin: clamp(18px, 3.5vh, 32px) auto 0;
+  font-family: var(--body-font);
+  font-size: clamp(16px, 1.45vw, 20px);
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.78);
+  user-select: text;
+}
+
+/* short laptop screens: smaller logo so the buttons clear the ears */
+@media (min-width: 721px) and (max-height: 760px) {
+  .center {
+    width: min(820px, 62vw);
+    transform: translate(-50%, -60%);
+  }
+
+  .hero-bio {
+    font-size: 16px;
+  }
+
+  .hero-ctas {
+    margin-top: 24px;
+  }
 }
 
 /* hero buttons: one big cut corner (bottom right), solid colours */
