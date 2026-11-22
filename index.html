@@ -17,9 +17,7 @@
   <noscript>
     <style>
       .nav-menu,
-      #cursor-glow,
-      .ears,
-      .ear-wash {
+      .ears {
         display: none !important;
       }
     </style>
@@ -59,9 +57,6 @@
       Para a melhor experiência, ative o JavaScript no seu navegador.
     </div>
   </noscript>
-  <div class="grid" aria-hidden="true"></div>
-  <canvas id="cursor-glow" aria-hidden="true" width="1028" height="1084"
-    style="width: 1028px; height: 1084px;"></canvas>
   <nav class="nav-menu" aria-label="Navegação principal">
     <a href="#home" class="nav-item selected" data-section="home" aria-current="page">
       <span class="nav-icon nav-icon--bz" aria-hidden="true"></span>
@@ -111,7 +106,6 @@
         </a>
       </div>
     </div>
-    <div class="ear-wash" aria-hidden="true"></div>
     <div class="ears" aria-hidden="true">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 966.88 517.94">
         <defs>
@@ -130,13 +124,7 @@
             </path>
           </symbol>
         </defs>
-        <g class="ear-glow-group">
-          <use href="#bc-ears-paths" class="ear-glow-bloom" />
-          <use href="#bc-ears-paths" class="ear-glow-wide" />
-          <use href="#bc-ears-paths" class="ear-glow-mid" />
-          <use href="#bc-ears-paths" class="ear-glow-tight" />
-        </g>
-        <use href="#bc-ears-paths" class="ear-stroke" />
+        <use href="#bc-ears-paths" class="ear-fill" />
       </svg>
     </div>
   </section>

@@ -7,7 +7,6 @@
 
 :root {
   --bg: #050608;
-  --grid-line: rgba(170, 180, 200, 0.035);
   --pink: #ff5a8a;
   --pink-deep: #ff2f6e;
   --cyan: #2dd4ff;
@@ -38,27 +37,6 @@ body {
   background: var(--bg);
   color: #fff;
   font-family: "Helvetica Neue", Arial, sans-serif;
-}
-
-.grid {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(var(--grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-  background-size: 56px 56px;
-  background-position: -1px -1px;
-}
-
-/* canvas overlay that brightens grid lines around the cursor */
-#cursor-glow {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  mix-blend-mode: screen;
 }
 
 /* top-left navigation bar */
@@ -369,9 +347,9 @@ body {
 
 .ears {
   position: absolute;
-  left: -3vw;
-  bottom: -5vh;
-  height: 33vh;
+  left: -1.5vw;
+  bottom: -3vh;
+  height: 24vh;
   z-index: 4;
   pointer-events: none;
   transform-origin: bottom left;
@@ -384,86 +362,9 @@ body {
   overflow: visible;
 }
 
-.ears svg .ear-stroke,
-.ears svg .ear-glow-tight,
-.ears svg .ear-glow-mid,
-.ears svg .ear-glow-wide,
-.ears svg .ear-glow-bloom {
-  fill: none;
-  stroke-linejoin: round;
-}
-
-.ears svg .ear-stroke {
-  stroke: var(--pink, #ff5a8a);
-  stroke-width: 5;
-}
-
-.ears svg .ear-glow-tight {
-  stroke: var(--pink, #ff5a8a);
-  stroke-width: 5;
-  opacity: .50;
-  filter: blur(2px);
-}
-
-.ears svg .ear-glow-mid {
-  stroke: var(--pink, #ff5a8a);
-  stroke-width: 7;
-  opacity: .28;
-  filter: blur(6px);
-}
-
-.ears svg .ear-glow-wide {
-  stroke: #ff7aa3;
-  stroke-width: 10;
-  opacity: .15;
-  filter: blur(12px);
-}
-
-.ears svg .ear-glow-bloom {
-  stroke: #ff5a8a;
-  stroke-width: 14;
-  opacity: .09;
-  filter: blur(20px);
-}
-
-@keyframes earsFlicker {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  45% {
-    opacity: .92;
-  }
-
-  55% {
-    opacity: .98;
-  }
-
-  70% {
-    opacity: .88;
-  }
-}
-
-.ears svg .ear-glow-group {
-  animation: earsFlicker 60s ease-in-out infinite;
-}
-
-.ear-wash {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(60vw 70vh at 18vw 95vh,
-      rgba(255, 90, 138, 0.35) 0%,
-      rgba(255, 90, 138, 0.24) 18%,
-      rgba(255, 90, 138, 0.14) 35%,
-      rgba(255, 90, 138, 0.06) 55%,
-      rgba(255, 90, 138, 0.02) 75%,
-      transparent 100%);
-  z-index: 1;
-  pointer-events: none;
-  mix-blend-mode: screen;
+/* the ears drawn as the logo draws them: solid pink, no glow */
+.ears svg .ear-fill {
+  fill: var(--pink);
 }
 
 @media (max-width: 720px) {
@@ -510,22 +411,14 @@ body {
     gap: 12px;
   }
 
+  /* centred on phones; shrinks on scroll around its own centre */
   .ears {
-    width: 40vh;
+    width: 30vh;
     height: auto;
     left: 50%;
+    bottom: -2vh;
     transform: translateX(-50%);
-  }
-
-  .ear-wash {
-    background:
-      radial-gradient(60vw 40vh at 50vw 95vh,
-        rgba(255, 90, 138, 0.35) 0%,
-        rgba(255, 90, 138, 0.24) 18%,
-        rgba(255, 90, 138, 0.14) 35%,
-        rgba(255, 90, 138, 0.06) 55%,
-        rgba(255, 90, 138, 0.02) 75%,
-        transparent 100%);
+    transform-origin: bottom center;
   }
 
   .section-inner {
