@@ -240,6 +240,10 @@
       fields.nome.focus();
     }
 
+    // Keep focus in the field on mouse press, so its blur validation can't
+    // shift the layout between mousedown and mouseup and swallow the click.
+    btn.addEventListener('mousedown', e => e.preventDefault());
+
     document.getElementById('contato-outra').addEventListener('click', resetForm);
 
     form.addEventListener('submit', async e => {
