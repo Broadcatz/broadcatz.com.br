@@ -252,12 +252,19 @@ body {
   }
 }
 
-/* hero buttons: one big cut corner (bottom right), solid colours */
+/* hero buttons: one big cut corner (bottom right), solid colours;
+   equal columns, so both take the width of the wider one */
 .hero-ctas {
   pointer-events: auto;
   user-select: auto;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  width: max-content;
+  /* centred on its own, so on narrow tablets the row can be wider than the logo block */
+  position: relative;
+  left: 50%;
+  translate: -50% 0;
   gap: 16px;
   margin-top: clamp(28px, 6vh, 56px);
 }
@@ -404,9 +411,10 @@ body {
   }
 
   .hero-ctas {
-    flex-direction: column;
-    align-items: stretch;
+    grid-auto-flow: row;
     width: min(100%, 340px);
+    left: auto;
+    translate: none;
     margin-inline: auto;
     gap: 12px;
   }
