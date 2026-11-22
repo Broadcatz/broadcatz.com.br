@@ -128,7 +128,7 @@
 
   <section class="page-section" id="portfolio" aria-labelledby="heading-portfolio">
     <div class="section-inner">
-      <h2 class="section-heading" id="heading-portfolio">// PORTFÓLIO</h2>
+      <h2 class="section-heading" id="heading-portfolio">PORTFÓLIO</h2>
       <div class="cases-grid">
         <a class="case-item" href="https://www.youtube.com/watch?v=ybT2GLXE0m8" target="_blank" rel="noopener">
           <div class="case-thumb">
@@ -309,12 +309,69 @@
 
   <section class="page-section" id="contato" aria-labelledby="heading-contato">
     <div class="section-inner">
-      <h2 class="section-heading" id="heading-contato">// CONTATO</h2>
-      <div class="contato-form" id="contato-form-container"></div>
+      <h2 class="section-heading" id="heading-contato">CONTATO</h2>
+      <div class="contato-form" id="contato-form-container">
+        <form id="contato-form" novalidate aria-label="Formulário de contato">
+          <p class="sr-only" role="status" id="contato-status"></p>
+          <fieldset id="contato-campos">
+            <legend class="sr-only">Dados do contato</legend>
+            <div class="cf-field">
+              <label for="cf-nome"><span>Nome</span><span class="cf-cnt" data-cnt="nome" aria-hidden="true">0/200</span></label>
+              <input class="cf-ctl" id="cf-nome" name="nome" maxlength="200" autocomplete="name" required
+                aria-describedby="cf-nome-e" placeholder="Seu nome ou da empresa">
+              <p class="cf-err" id="cf-nome-e" data-err="nome"></p>
+            </div>
+            <div class="cf-field">
+              <label for="cf-email"><span>E-mail</span><span class="cf-cnt" data-cnt="email" aria-hidden="true">0/254</span></label>
+              <input class="cf-ctl" id="cf-email" name="email" type="email" maxlength="254" autocomplete="email"
+                inputmode="email" required aria-describedby="cf-email-e" placeholder="voce@empresa.com.br">
+              <p class="cf-err" id="cf-email-e" data-err="email"></p>
+            </div>
+            <div class="cf-field">
+              <label for="cf-telefone"><span>Telefone (opcional)</span></label>
+              <input class="cf-ctl" id="cf-telefone" name="telefone" type="tel" maxlength="30" autocomplete="tel"
+                inputmode="tel" aria-describedby="cf-telefone-e" placeholder="(11) 91234-5678">
+              <p class="cf-err" id="cf-telefone-e" data-err="telefone"></p>
+            </div>
+            <div class="cf-field">
+              <label for="cf-mensagem"><span>Mensagem</span><span class="cf-cnt" data-cnt="mensagem" aria-hidden="true">0/3000</span></label>
+              <textarea class="cf-ctl" id="cf-mensagem" name="mensagem" maxlength="3000" required
+                aria-describedby="cf-mensagem-e"
+                placeholder="Conte o que você precisa: evento, data, local e formato"></textarea>
+              <p class="cf-err" id="cf-mensagem-e" data-err="mensagem"></p>
+            </div>
+            <div class="cf-extra" aria-hidden="true">
+              <label>Website<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            </div>
+            <div class="cf-ts-row">
+              <p class="cf-lbl" id="cf-ts-l">Verificação</p>
+              <div class="cf-turnstile" id="cf-turnstile" aria-labelledby="cf-ts-l"
+                data-sitekey="0x4AAAAAAGMSYX7_AgRjqucm" data-theme="dark" data-language="pt-br" data-size="flexible"></div>
+              <p class="cf-err" data-err="ts"></p>
+            </div>
+          </fieldset>
+          <div class="cf-alert" id="contato-alert" role="alert"></div>
+          <div class="cf-actions"><button class="cf-btn" type="submit" id="contato-enviar">Enviar mensagem</button></div>
+          <p class="cf-privacy">Usamos seus dados só para responder esta mensagem.</p>
+        </form>
+        <div class="cf-done" id="contato-sucesso" hidden>
+          <h3 tabindex="-1" id="contato-sucesso-h">Mensagem enviada</h3>
+          <dl>
+            <div><dt>Nome</dt><dd data-echo="nome"></dd></div>
+            <div><dt>E-mail</dt><dd data-echo="email"></dd></div>
+            <div data-echo-row="telefone"><dt>Telefone</dt><dd data-echo="telefone"></dd></div>
+            <div><dt>Mensagem</dt><dd data-echo="mensagem"></dd></div>
+            <div><dt>Status</dt><dd class="cf-st">Entregue à equipe</dd></div>
+          </dl>
+          <p>Respondemos para o e-mail informado.</p>
+          <button class="cf-link" type="button" id="contato-outra">Enviar outra mensagem</button>
+        </div>
+      </div>
     </div>
   </section>
   </main>
 
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   <script src="./js/main.js" async></script>
 </body>
 
