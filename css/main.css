@@ -248,6 +248,99 @@ body {
   display: block;
 }
 
+/* hero buttons: one big cut corner (bottom right), solid colours */
+.hero-ctas {
+  pointer-events: auto;
+  user-select: auto;
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: clamp(28px, 6vh, 56px);
+}
+
+.cta {
+  --cut: 18px;
+  --edge: rgba(170, 180, 200, 0.45);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 0 30px 0 28px;
+  font-family: var(--header-font);
+  font-size: 15px;
+  letter-spacing: 0.1em;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--cut)), calc(100% - var(--cut)) 100%, 0 100%);
+  transition: background-color .2s ease, color .2s ease;
+}
+
+.cta svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.cta--primary {
+  gap: 16px;
+  background: var(--cyan);
+  color: #000;
+}
+
+/* the arrow sits after a thin divider */
+.cta--primary svg {
+  box-sizing: content-box;
+  padding-left: 16px;
+  border-left: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+.cta--primary:is(:hover, :focus-visible) {
+  background: #fff;
+}
+
+/* ghost: 1px edge that follows the cut; the cut corner is lit cyan */
+.cta--ghost {
+  isolation: isolate;
+  color: #fff;
+  background: linear-gradient(315deg, var(--cyan) 0 20px, var(--edge) 20px);
+}
+
+.cta--ghost::before {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  z-index: -1;
+  background: #080a0e;
+  clip-path: inherit;
+}
+
+.cta--ghost:is(:hover, :focus-visible) {
+  background: var(--cyan);
+  color: var(--cyan);
+}
+
+/* clip-path cuts the outline off: draw the focus ring inside */
+.cta:focus-visible {
+  outline: none;
+}
+
+.cta--primary:focus-visible {
+  box-shadow: inset 0 0 0 2px #000;
+}
+
+.cta--ghost:focus-visible::before {
+  box-shadow: inset 0 0 0 2px var(--cyan);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+}
+
 .ears {
   position: absolute;
   left: -3vw;
@@ -380,6 +473,15 @@ body {
 
   .center {
     width: 86vw;
+    transform: translate(-50%, -70%);
+  }
+
+  .hero-ctas {
+    flex-direction: column;
+    align-items: stretch;
+    width: min(100%, 340px);
+    margin-inline: auto;
+    gap: 12px;
   }
 
   .ears {
