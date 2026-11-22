@@ -657,6 +657,7 @@ textarea.cf-ctl {
   color: #fff;
   font-size: 0.9rem;
   line-height: 1.4;
+  white-space: pre-line;
 }
 
 .cf-err:empty {

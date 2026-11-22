@@ -148,9 +148,9 @@
       if (!fields.nome.value.trim()) errs.nome = 'Informe seu nome.';
       const email = fields.email.value.trim();
       if (!email) errs.email = 'Informe seu e-mail.';
-      else if (!CONTATO_EMAIL_RE.test(email)) errs.email = 'Esse e-mail parece incompleto. Exemplo: nome@empresa.com.br';
+      else if (!CONTATO_EMAIL_RE.test(email)) errs.email = 'Esse e-mail parece incompleto.\nExemplo: nome@empresa.com.br';
       const tel = fields.telefone.value.trim();
-      if (tel && !CONTATO_TEL_RE.test(tel)) errs.telefone = 'Confira o telefone: use só números, com DDD. Exemplo: (11) 91234-5678';
+      if (tel && !CONTATO_TEL_RE.test(tel)) errs.telefone = 'Confira o telefone: use só números, com DDD.\nExemplo: (11) 91234-5678';
       if (!fields.mensagem.value.trim()) errs.mensagem = 'Escreva sua mensagem.';
       return errs;
     }
