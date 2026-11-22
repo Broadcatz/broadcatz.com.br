@@ -229,6 +229,12 @@
   window.addEventListener('resize', scheduleEarsUpdate, { passive: true });
   requestAnimationFrame(updateEars);
 
+  // ── Hero background: pause the VHS animations while the hero is off screen ──
+  const homeEl = document.getElementById('home');
+  if (homeEl) {
+    new IntersectionObserver(([e]) => homeEl.classList.toggle('is-offscreen', !e.isIntersecting)).observe(homeEl);
+  }
+
   // Defer DOM-dependent setup to first rAF so async script never races the parser
   requestAnimationFrame(() => {
     // ── Active nav via IntersectionObserver ────────────────────────────────

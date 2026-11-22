@@ -369,9 +369,107 @@ body {
   overflow: visible;
 }
 
-/* the ears drawn as the logo draws them: solid pink, no glow */
+/* the ears drawn as the logo draws them, solid pink, with a subtle neon edge and halo */
+.ears svg {
+  filter:
+    drop-shadow(0 0 1px rgba(255, 170, 200, 0.9))
+    drop-shadow(0 0 8px rgba(255, 90, 138, 0.45))
+    drop-shadow(0 0 26px rgba(255, 90, 138, 0.2));
+}
+
 .ears svg .ear-fill {
   fill: var(--pink);
+}
+
+/* ── Hero background: VHS screen ─────────────────────────────────────────
+   .vhs::before  the lit screen: cyan centre, a little magenta low right, dark edges
+   .vhs-lines    thick colour-fringed scanlines multiplied over it, crawling down 4px/s
+   .vhs-grain    fine grain that flickers in place (small vertical steps, never sideways)
+   Animations pause while the hero is off screen (#home.is-offscreen, set in main.js)
+   and stop with reduced motion. */
+.vhs {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+  isolation: isolate;
+  animation: vhsFlicker 5s steps(1) infinite;
+}
+
+.vhs::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(55% 45% at 78% 82%, rgba(70, 25, 70, 0.55), transparent 70%),
+    radial-gradient(70% 62% at 46% 44%, rgb(30, 46, 60) 0%, rgb(16, 24, 33) 45%, var(--bg) 85%),
+    var(--bg);
+}
+
+.vhs-lines,
+.vhs-grain {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.vhs-lines {
+  top: -8px;
+  bottom: 0;
+  mix-blend-mode: multiply;
+  background: repeating-linear-gradient(to bottom,
+      rgb(225, 230, 255) 0 1px,
+      rgb(205, 248, 255) 1px 3px,
+      rgb(175, 255, 215) 3px 4px,
+      rgb(80, 45, 100) 4px 5px,
+      rgb(38, 30, 52) 5px 8px);
+  animation: vhsCrawl 2s linear infinite;
+}
+
+.vhs-grain {
+  inset: -100px;
+  opacity: 0.06;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: vhsGrain 1.2s steps(1) infinite;
+}
+
+@keyframes vhsCrawl {
+  to { transform: translateY(8px); }
+}
+
+@keyframes vhsFlicker {
+  0% { opacity: 1; }
+  23% { opacity: .96; }
+  25% { opacity: 1; }
+  58% { opacity: .98; }
+  61% { opacity: 1; }
+  83% { opacity: .95; }
+  84% { opacity: 1; }
+}
+
+@keyframes vhsGrain {
+  0% { transform: translateY(0); }
+  12.5% { transform: translateY(37px); }
+  25% { transform: translateY(-23px); }
+  37.5% { transform: translateY(61px); }
+  50% { transform: translateY(-49px); }
+  62.5% { transform: translateY(13px); }
+  75% { transform: translateY(-71px); }
+  87.5% { transform: translateY(29px); }
+}
+
+#home.is-offscreen .vhs,
+#home.is-offscreen .vhs > span {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vhs,
+  .vhs > span {
+    animation: none;
+  }
 }
 
 @media (max-width: 720px) {
