@@ -563,33 +563,349 @@ body {
   position: relative;
 }
 
-.form-loading-overlay {
+/* ── CONTATO ─────────────────────────────────── */
+.contato-form {
+  --cf-ctl-line: rgba(255, 255, 255, 0.5);
+  --cf-text-secondary: rgba(255, 255, 255, 0.82);
+  --cf-text-muted: rgba(255, 255, 255, 0.58);
+  --cf-line: rgba(170, 180, 200, 0.10);
+  max-width: 760px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.contato-form fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.contato-form fieldset:disabled {
+  opacity: 0.7;
+}
+
+.sr-only {
   position: absolute;
-  inset: 0;
-  background: rgba(28, 30, 38, 0.88);
-  pointer-events: none;
-  transition: opacity 0.7s ease;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
-.form-loading-overlay:not(.done) {
-  animation: formLoadPulse 2.8s ease-in-out infinite;
+.cf-field {
+  margin-bottom: 32px;
 }
 
-.form-loading-overlay.done {
-  opacity: 0;
+.cf-field>label {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font: 400 0.85rem/1.2 var(--header-font);
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  text-transform: uppercase;
 }
 
-@keyframes formLoadPulse {
+.cf-cnt {
+  font: 400 12px/1 var(--body-font);
+  letter-spacing: 0;
+  color: var(--cf-text-muted);
+}
+
+.cf-ctl {
+  display: block;
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--cf-ctl-line);
+  border-radius: 0;
+  color: #fff;
+  font: 400 1.1rem/1.5 var(--body-font);
+  padding: 12px 0 10px;
+  transition: border-color 0.2s;
+}
+
+textarea.cf-ctl {
+  min-height: 168px;
+  resize: vertical;
+}
+
+.cf-ctl::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.cf-ctl:focus {
+  border-bottom-color: var(--cyan);
+}
+
+/* error: 2px pink underline, message with 3px pink bar and white text */
+.cf-ctl[aria-invalid="true"] {
+  border-bottom: 2px solid var(--pink);
+  padding-bottom: 9px;
+}
+
+.cf-err {
+  margin-top: 8px;
+  border-left: 3px solid var(--pink);
+  padding: 2px 0 2px 10px;
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.cf-err:empty {
+  display: none;
+}
+
+.cf-extra {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.cf-ts-row {
+  margin: 8px 0 24px;
+}
+
+.cf-lbl {
+  font: 400 0.85rem/1.2 var(--header-font);
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.cf-turnstile {
+  min-height: 65px;
+  max-width: 100%;
+}
+
+.cf-alert {
+  border-left: 4px solid var(--pink);
+  background: #0c0e12;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  color: #fff;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.cf-alert:empty {
+  display: none;
+}
+
+.cf-alert strong {
+  display: block;
+  font: 400 0.8rem/1.3 var(--header-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.cf-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cf-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 56px;
+  padding: 0 24px;
+  background: transparent;
+  border: 1px solid rgba(45, 212, 255, 0.48);
+  border-radius: 0;
+  color: var(--cyan);
+  font: 400 1rem/1.2 var(--header-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.cf-btn:hover:not(:disabled) {
+  background: rgba(45, 212, 255, 0.08);
+  border-color: var(--cyan);
+}
+
+.cf-btn:disabled {
+  cursor: progress;
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(170, 180, 200, 0.12);
+}
+
+.cf-dots {
+  display: inline-flex;
+  gap: 3px;
+  margin-left: 8px;
+}
+
+.cf-dots i {
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  opacity: 0.4;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cf-dots i {
+    animation: cfBlink 1.2s infinite;
+  }
+
+  .cf-dots i:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .cf-dots i:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes cfBlink {
 
   0%,
   100% {
-    opacity: 0.45;
+    opacity: 0.25;
   }
 
   50% {
-    opacity: 0.85;
+    opacity: 1;
   }
 }
+
+/* success panel, log style */
+.cf-done {
+  position: relative;
+}
+
+.cf-done h3 {
+  position: relative;
+  font: 400 1.5rem/1.2 var(--header-font);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.cf-done h3::before {
+  content: '';
+  position: absolute;
+  left: -36px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 1.2em;
+  background: var(--pink);
+}
+
+.cf-done dl {
+  margin: 0 0 20px;
+  border-top: 1px solid var(--cf-line);
+}
+
+.cf-done dl>div {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--cf-line);
+}
+
+.cf-done dt {
+  font: 400 0.75rem/1.6 var(--header-font);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cf-text-muted);
+}
+
+.cf-done dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-line;
+  color: var(--cf-text-secondary);
+}
+
+.cf-done .cf-st {
+  color: var(--cyan);
+}
+
+.cf-done p {
+  color: var(--cf-text-secondary);
+  margin: 0 0 16px;
+}
+
+.cf-link {
+  background: none;
+  border: 0;
+  color: var(--cyan);
+  font: inherit;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  min-height: 44px;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cf-done dl>div {
+    animation: cfRise 0.5s both;
+  }
+
+  .cf-done dl>div:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .cf-done dl>div:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .cf-done dl>div:nth-child(4) {
+    animation-delay: 0.45s;
+  }
+}
+
+@keyframes cfRise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.cf-done h3:focus {
+  outline: none;
+}
+
+@media (min-width: 721px) {
+  .cf-actions {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .cf-btn {
+    width: auto;
+    min-width: 260px;
+  }
+}
+
+@media (max-width: 720px) {
+  .cf-done h3::before {
+    left: -28px;
+  }
+}
+
 /* ── FOCO DO TECLADO ─────────────────────────── */
 :focus-visible {
   outline: 2px solid var(--cyan);

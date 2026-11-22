@@ -97,61 +97,194 @@
 // ── App ───────────────────────────────────────────────────────────────────────
 (() => {
   // ── Contact form ────────────────────────────────────────────────────────────
-  let formStarted = false;
-  let formReady = false;
-  let dismissOverlay = null;
+  const CONTATO_URL = 'https://contato.broadcatz-web.workers.dev/api/contato';
+  const CONTATO_MSG = {
+    400: ['Dados inválidos', 'Alguns campos não foram aceitos. Confira nome, e-mail e mensagem e tente de novo.'],
+    403: ['Verificação não confirmada', 'Não conseguimos confirmar a verificação anti-robô. Tente de novo.'],
+    413: ['Mensagem grande demais', 'O texto passou do tamanho aceito (5.000 caracteres). Reduza a mensagem e envie de novo.'],
+    429: ['Muitas tentativas', 'Recebemos muitas tentativas em pouco tempo. Aguarde um minuto e tente de novo.'],
+    502: ['Não foi possível enviar', 'Não conseguimos entregar sua mensagem agora. Tente de novo em instantes ou use os links da equipe nesta página.']
+  };
+  const CONTATO_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const CONTATO_LABEL = { nome: 'nome', email: 'e-mail', mensagem: 'mensagem' };
 
-  function startFormLoad() {
-    if (formStarted) return;
-    formStarted = true;
-    const container = document.getElementById('contato-form-container');
+  function initContato() {
+    const form = document.getElementById('contato-form');
+    if (!form) return;
+    const fields = {
+      nome: form.elements.nome,
+      email: form.elements.email,
+      mensagem: form.elements.mensagem
+    };
+    const website = form.elements.website;
+    const fieldset = document.getElementById('contato-campos');
+    const status = document.getElementById('contato-status');
+    const alertBox = document.getElementById('contato-alert');
+    const btn = document.getElementById('contato-enviar');
+    const success = document.getElementById('contato-sucesso');
+    const tsEl = document.getElementById('cf-turnstile');
+    const btnLabel = btn.textContent;
+    const touched = {};
+    let submitted = false;
+    let sending = false;
 
-    function onReady() {
-      formReady = true;
-      dismissOverlay?.();
-      dismissOverlay = null;
+    // Turnstile renders itself from the data- attributes (api.js is async, so no
+    // callbacks are wired: the token is read from the widget's hidden input).
+    function readToken() {
+      const input = form.querySelector('[name="cf-turnstile-response"]');
+      return input && input.value ? input.value : null;
     }
 
-    const observer = new MutationObserver(() => {
-      const iframe = container.querySelector('iframe');
-      if (!iframe) return;
-      observer.disconnect();
-      if (iframe.complete || iframe.readyState === 'complete') {
-        onReady();
-      } else {
-        iframe.addEventListener('load', onReady, { once: true });
+    function resetTs() {
+      if (window.turnstile) {
+        try { window.turnstile.reset(tsEl); } catch (e) { /* widget not ready */ }
       }
+    }
+
+    function validate() {
+      const errs = {};
+      if (!fields.nome.value.trim()) errs.nome = 'Informe seu nome.';
+      const email = fields.email.value.trim();
+      if (!email) errs.email = 'Informe seu e-mail.';
+      else if (!CONTATO_EMAIL_RE.test(email)) errs.email = 'Esse e-mail parece incompleto. Exemplo: nome@empresa.com.br';
+      if (!fields.mensagem.value.trim()) errs.mensagem = 'Escreva sua mensagem.';
+      return errs;
+    }
+
+    function setErr(key, msg) {
+      form.querySelectorAll('[data-err="' + key + '"]').forEach(e => { e.textContent = msg || ''; });
+      const f = fields[key];
+      if (f) {
+        if (msg) f.setAttribute('aria-invalid', 'true');
+        else f.removeAttribute('aria-invalid');
+      }
+    }
+
+    function count(key) {
+      const c = form.querySelector('[data-cnt="' + key + '"]');
+      if (c) c.textContent = fields[key].value.length + '/' + fields[key].maxLength;
+    }
+
+    function revalidate(key) {
+      setErr(key, validate()[key]);
+    }
+
+    Object.keys(fields).forEach(key => {
+      fields[key].addEventListener('input', () => {
+        count(key);
+        if (submitted || touched[key]) revalidate(key);
+      });
+      fields[key].addEventListener('blur', () => {
+        if (fields[key].value || touched[key]) {
+          touched[key] = true;
+          revalidate(key);
+        }
+      });
     });
-    observer.observe(container, { childList: true, subtree: true });
 
-    const script = document.createElement('script');
-    script.src = 'https://form.jotform.com/jsform/261262448371659';
-    script.async = true;
-    container.appendChild(script);
+    function setSending(on) {
+      sending = on;
+      fieldset.disabled = on;
+      btn.disabled = on;
+      form.setAttribute('aria-busy', on ? 'true' : 'false');
+      if (on) {
+        btn.textContent = 'Enviando';
+        const dots = document.createElement('span');
+        dots.className = 'cf-dots';
+        dots.setAttribute('aria-hidden', 'true');
+        dots.innerHTML = '<i></i><i></i><i></i>';
+        btn.appendChild(dots);
+        alertBox.textContent = '';
+        status.textContent = 'Enviando mensagem.';
+      } else {
+        btn.textContent = btnLabel;
+      }
+    }
+
+    function showServerError(code) {
+      setSending(false);
+      const m = CONTATO_MSG[code] || CONTATO_MSG[502];
+      alertBox.textContent = '';
+      const title = document.createElement('strong');
+      title.textContent = m[0];
+      alertBox.append(title, m[1]);
+      status.textContent = '';
+      btn.focus();
+    }
+
+    function showSuccess(values) {
+      setSending(false);
+      success.querySelectorAll('[data-echo]').forEach(e => { e.textContent = values[e.dataset.echo]; });
+      form.hidden = true;
+      success.hidden = false;
+      status.textContent = '';
+      document.getElementById('contato-sucesso-h').focus();
+    }
+
+    function resetForm() {
+      form.reset();
+      Object.keys(fields).forEach(count);
+      Object.keys(touched).forEach(k => delete touched[k]);
+      submitted = false;
+      ['nome', 'email', 'mensagem', 'ts'].forEach(k => setErr(k, ''));
+      alertBox.textContent = '';
+      status.textContent = '';
+      resetTs();
+      success.hidden = true;
+      form.hidden = false;
+      fields.nome.focus();
+    }
+
+    document.getElementById('contato-outra').addEventListener('click', resetForm);
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      if (sending) return;
+      const errs = validate();
+      const keys = Object.keys(errs);
+      submitted = true;
+      ['nome', 'email', 'mensagem'].forEach(k => setErr(k, errs[k]));
+      if (keys.length) {
+        status.textContent = keys.length + (keys.length === 1 ? ' campo precisa' : ' campos precisam') +
+          ' de ajuste: ' + keys.map(k => CONTATO_LABEL[k]).join(', ') + '.';
+        fields[keys[0]].focus();
+        return;
+      }
+      const t = readToken();
+      if (!t) {
+        setErr('ts', 'Aguarde a verificação terminar e tente de novo.');
+        status.textContent = 'Verificação pendente.';
+        return;
+      }
+      setErr('ts', '');
+      const payload = {
+        nome: fields.nome.value.trim(),
+        email: fields.email.value.trim(),
+        mensagem: fields.mensagem.value.trim(),
+        website: website.value,
+        turnstileToken: t
+      };
+      setSending(true);
+      let code = 502;
+      try {
+        const res = await fetch(CONTATO_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        let body = null;
+        try { body = await res.json(); } catch (err) { /* non-JSON body */ }
+        code = res.status === 200 && body && body.ok === true ? 200 : res.status;
+      } catch (err) {
+        code = 502; // network error
+      }
+      resetTs(); // tokens are single use: refresh after every attempt
+      if (code === 200) showSuccess(payload);
+      else showServerError(code);
+    });
   }
 
-  function showFormOverlay() {
-    startFormLoad();
-    if (formReady || dismissOverlay) return;
-
-    const container = document.getElementById('contato-form-container');
-    container.style.minHeight = '520px';
-
-    const overlay = document.createElement('div');
-    overlay.className = 'form-loading-overlay';
-    container.appendChild(overlay);
-
-    dismissOverlay = () => {
-      overlay.classList.add('done');
-      overlay.addEventListener('transitionend', () => {
-        overlay.remove();
-        container.style.minHeight = '';
-      }, { once: true });
-    };
-  }
-
-  if (document.readyState === 'complete') startFormLoad();
-  else window.addEventListener('load', startFormLoad);
+  initContato();
 
   // ── Cat ears: progressive scroll animation ───────────────────────────────
   let _homeSection, _ears, _earWash;
@@ -208,11 +341,5 @@
 
     document.querySelectorAll('.page-section, #home')
       .forEach(s => navObserver.observe(s));
-
-    // ── Trigger form overlay when contato scrolls into view ────────────────
-    new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) showFormOverlay();
-    }, { threshold: 0.1 })
-      .observe(document.getElementById('contato'));
   });
 })();
